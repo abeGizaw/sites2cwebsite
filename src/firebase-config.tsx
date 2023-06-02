@@ -8,12 +8,13 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyBfcAPEXDtDcwosX-ooBXylf_JlKnudGVY",
   authDomain: "gsmartinez-abegizaw-starter.firebaseapp.com",
-  databaseURL: "https://gsmartinez-abegizaw-starter-default-rtdb.firebaseio.com",
+  databaseURL:
+    "https://gsmartinez-abegizaw-starter-default-rtdb.firebaseio.com",
   projectId: "gsmartinez-abegizaw-starter",
   storageBucket: "gsmartinez-abegizaw-starter.appspot.com",
   messagingSenderId: "582052325575",
   appId: "1:582052325575:web:f6d0c4dfc6b89eddd9f6e2",
-  measurementId: "G-NMLNLGV14B"
+  measurementId: "G-NMLNLGV14B",
 };
 
 // Initialize Firebase
