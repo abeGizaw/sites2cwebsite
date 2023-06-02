@@ -1,0 +1,22 @@
+.CardContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#addEntryButton {
+  border-color: red;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#addIcon {
+  display: flex;
+  flex-direction: column;
+  align-items:end;
+}
+
+
+

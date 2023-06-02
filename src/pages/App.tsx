@@ -1,5 +1,4 @@
 import React from "react";
-import "../App.css";
 import { database, storage, auth } from "../firebase-config";
 
 function App() {
