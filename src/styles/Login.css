@@ -1,0 +1,49 @@
+.Login {
+  font-family: "Roboto";
+  height: 200px;
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -200px;
+  text-align: left;
+}
+
+.h-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.v-flex {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  text-align: left;
+}
+
+h1 {
+  color: #525559;
+  font-weight: 450;
+  font-size: 60px;
+  margin-bottom: 0px;
+}
+
+h2 {
+  color: #89919a;
+  font-weight: 350;
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+.Logo {
+  height: 130px;
+  width: 130px;
+}
+
+.Break {
+  padding-left: 0px;
+  width: 300px;
+}
