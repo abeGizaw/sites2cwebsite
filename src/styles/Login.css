@@ -1,13 +1,11 @@
 .Login {
   font-family: "Roboto";
-  height: 200px;
-  width: 400px;
   position: fixed;
   top: 50%;
   left: 50%;
   margin-top: -100px;
   margin-left: -200px;
-  text-align: left;
+  text-align: center;
 }
 
 .h-flex {
@@ -29,6 +27,7 @@
   font-size: 60px;
   margin-bottom: -8px;
   margin-top: 24px;
+  align-self: start;
 }
 
 .SubTitle {
@@ -37,6 +36,7 @@
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 40px;
+  align-self: baseline;
 }
 
 .Logo {
@@ -49,4 +49,25 @@
   width: 300px;
   margin-top: 0px;
   margin-bottom: 0;
+}
+
+.signInButton {
+  font-size: 16px;
+  border-radius: 2px;
+  color: white;
+  margin-top: 160px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #4285F4;
+  font-weight: 800px;
+  border-color: #89919a;
+  border-width: 1px;
+  border-style:groove;
+  transition-duration: 0.4s;
+}
+
+.signInButton:hover {
+  background-color: #6ea1f5;
 }

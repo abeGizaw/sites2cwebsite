@@ -1,6 +1,5 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { provider } from "../firebase-config";
-import { Link } from "react-router-dom";
 import HomeScreen from "../pages/homescreen";
 import { NavigateFunction } from "react-router-dom";
 
@@ -21,7 +20,6 @@ export default function userLogin(navigate: NavigateFunction) {
       // ...
       //redirect
       navigate("/homeScreen");
-      // <Link > </Link>;
     })
     .catch((error) => {
       // Handle Errors here.

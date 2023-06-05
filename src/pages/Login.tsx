@@ -4,8 +4,6 @@ import g_logo from "../assets/g_logo.png";
 import { database, storage, auth } from "../firebase-config";
 import userLogin from "../utilities/utilities";
 import { useNavigate } from "react-router-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomeScreen from "./homescreen";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,7 +22,9 @@ export default function Login() {
             <div className="SubTitle">Googler Trip Recommendations</div>
           </div>
         </div>
-        <button onClick={handleLogin}>Sign-in</button>
+        <button className="signInButton" onClick={handleLogin}>
+          Sign-in with Google
+        </button>
       </div>
     </>
   );
