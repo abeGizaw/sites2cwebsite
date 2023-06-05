@@ -22,7 +22,9 @@ export default function Login() {
             <div className="SubTitle">Googler Trip Recommendations</div>
           </div>
         </div>
-        <button onClick={handleLogin}>Sign-in</button>
+        <button className="signInButton" onClick={handleLogin}>
+          Sign-in with Google
+        </button>
       </div>
     </>
   );
