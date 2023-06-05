@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import reportWebVitals from "./reportWebVitals";
 import HomeScreen from "./pages/homescreen";
 import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,6 +12,14 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />}>
+          {" "}
+          <Route path="homeScreen" element={<HomeScreen />} />
+        </Route>{" "}
+      </Routes>
+    </BrowserRouter>
     <Login />
   </React.StrictMode>
 );

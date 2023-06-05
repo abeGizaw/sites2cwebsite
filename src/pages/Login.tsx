@@ -1,34 +1,16 @@
 import React from "react";
 import "../styles/Login.css";
 import g_logo from "../assets/g_logo.png";
-import { database, storage, auth, provider } from "../firebase-config";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { database, storage, auth } from "../firebase-config";
+import userLogin from "../utilities/utilities";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      // let token: string = "";
-      // if (credential) {
-      //   token = credential.accessToken!;
-      // }
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+  const navigate = useNavigate();
+
+  function handleLogin() {
+    userLogin(navigate);
+  }
   return (
     <>
       <div className="Login">
@@ -40,6 +22,7 @@ export default function Login() {
             <div className="SubTitle">Googler Trip Recommendations</div>
           </div>
         </div>
+        <button onClick={handleLogin}>Sign-in</button>
       </div>
     </>
   );

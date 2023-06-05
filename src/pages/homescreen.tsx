@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { database, storage, auth } from "../firebase-config";
-
-import { CardActionArea, Container } from "@mui/material";
-import CardComponent from "../Components/Card";
+import CardComponent from "../Components/Cards/Card";
 import CardForm from "../Components/addCard";
 import "../styles/homeScreen.css";
 
