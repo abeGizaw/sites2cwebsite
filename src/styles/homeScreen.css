@@ -18,5 +18,16 @@
   align-items:end;
 }
 
+.form-popup{
+  display: block;
+}
 
+.form-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.addCardContainer{
+  border-color: aqua;
+}
 
