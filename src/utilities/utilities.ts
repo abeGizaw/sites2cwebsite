@@ -20,7 +20,7 @@ export default function userLogin(navigate: NavigateFunction) {
       // IdP data available using getAdditionalUserInfo(result)
       // ...
       //redirect
-      // navigate("/homeScreen");
+      navigate("/homeScreen");
       // <Link > </Link>;
     })
     .catch((error) => {
