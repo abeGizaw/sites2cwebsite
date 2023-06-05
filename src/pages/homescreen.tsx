@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { database, storage, auth } from "../firebase-config";
 import CardComponent from "../Components/Cards/Card";
-import CardForm from "../Components/addCard";
+import CardForm from "../Components/addCardForm/addCard";
 import "../styles/homeScreen.css";
+import ResponsiveAppBar from "../Components/Navbar/Navbar";
 
 export default function HomeScreen() {
   const [getCards, setCards] = useState<any>();
@@ -14,6 +15,7 @@ export default function HomeScreen() {
 
   return (
     <body id="homeScreen">
+      <ResponsiveAppBar />
       <div className="CardContainer">
         {Array.from({ length: 20 }, (_, index) => (
           <CardComponent title="" description="" imageUrl="" index={index} />
