@@ -20,21 +20,22 @@
   display: flex;
   flex-direction: column;
   padding-left: 15px;
-  text-align: left;
+  align-items: left;
 }
 
-h1 {
+.Title {
   color: #525559;
   font-weight: 450;
   font-size: 60px;
   margin-bottom: 0px;
+  margin-top: 24px;
 }
 
-h2 {
+.SubTitle {
   color: #89919a;
   font-weight: 350;
   font-size: 20px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 40px;
 }
 
@@ -46,4 +47,6 @@ h2 {
 .Break {
   padding-left: 0px;
   width: 300px;
+  margin-top: 0px;
+  margin-bottom: 0;
 }
