@@ -10,9 +10,9 @@ function Login() {
         <div className="h-flex">
           <img src={g_logo} className="Logo" alt="logo" />
           <div className="v-flex">
-            <h1>Sites2C</h1>
+            <div className="Title">Sites2C</div>
             <hr className="Break" />
-            <h2>Googler Trip Recommendations</h2>
+            <div className="SubTitle">Googler Trip Recommendations</div>
           </div>
         </div>
       </div>
