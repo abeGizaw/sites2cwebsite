@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import React from "react";
-import "../styles/homeScreen.css";
+import "../../styles/homeScreen.css";
 
 export default function CardForm({ visibility }: { visibility: string }) {
   function handleDisplay() {

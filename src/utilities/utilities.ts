@@ -1,7 +1,6 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { provider } from "../firebase-config";
-import { Link } from "react-router-dom";
-import HomeScreen from "../pages/homescreen";
 import { NavigateFunction } from "react-router-dom";
 
 export default function userLogin(navigate: NavigateFunction) {
@@ -32,5 +31,16 @@ export default function userLogin(navigate: NavigateFunction) {
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
+    });
+}
+
+export function userSignout(navigate: NavigateFunction) {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      navigate("/");
+    })
+    .catch((error) => {
+      // An error happened.
     });
 }
