@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomeScreen from "./homescreen";
+import HomeScreen from "./homeScreen/homescreen";
 import Login from "./Login";
 
 export default function App() {

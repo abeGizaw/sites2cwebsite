@@ -1,10 +1,15 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { provider } from "../firebase-config";
 import { NavigateFunction } from "react-router-dom";
+import { auth } from "../firebase-config";
 
 export default function userLogin(navigate: NavigateFunction) {
-  const auth = getAuth();
+  // const auth = getAuth();
 
   signInWithPopup(auth, provider)
     .then((result) => {
@@ -34,7 +39,7 @@ export default function userLogin(navigate: NavigateFunction) {
 }
 
 export function userSignout(navigate: NavigateFunction) {
-  const auth = getAuth();
+  // const auth = getAuth();
   signOut(auth)
     .then(() => {
       navigate("/");
