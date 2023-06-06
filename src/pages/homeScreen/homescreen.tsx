@@ -42,7 +42,7 @@ export default function HomeScreen() {
     });
   }, [navigate, currentUser]);
 
-  console.log(currentUser!.uid);
+  // console.log(currentUser!.uid);
 
   return (
     <div className="container-xxl" id="homeScreen">
