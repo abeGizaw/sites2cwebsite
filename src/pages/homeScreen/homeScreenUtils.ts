@@ -7,3 +7,7 @@ export default function writeUserData(currentUser: User) {
     email: currentUser.email,
   });
 }
+
+export function getAllPosts() {
+  return get(ref(database, "posts/"));
+}
