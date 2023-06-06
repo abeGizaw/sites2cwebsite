@@ -24,10 +24,13 @@ export default function HomeScreen() {
   }
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    // const auth = getAuth();
+    const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(auth.currentUser);
-        writeUserData(currentUser!);
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        setUser(user);
+        writeUserData(user);
         setPosts(allPosts);
         console.log(allPosts);
       } else {
@@ -35,7 +38,10 @@ export default function HomeScreen() {
         navigate("/");
       }
     });
-  }, [navigate, currentUser, allPosts]);
+    return () => {
+      unsub();
+    };
+  }, [navigate, allPosts]);
 
   return (
     <div className="container-xxl" id="homeScreen">
