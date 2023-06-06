@@ -30,7 +30,7 @@ function ResponsiveAppBar() {
             <HomeIcon />
           </Box>
 
-          {/* //My DashB oard Text */}
+          {/* //Sites2C Text */}
           <Typography
             variant="h6"
             noWrap
