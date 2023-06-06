@@ -1,27 +1,75 @@
-import { Container } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/homeScreen.css";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { MuiFileInput } from "mui-file-input";
+import Image from "mui-image";
 
-export default function CardForm({ visibility }: { visibility: string }) {
-  function handleDisplay() {
-    visibility = "none";
+interface CardFormProps {
+  visibility: boolean;
+  onClose: () => void;
+}
+
+export default function CardForm({ visibility, onClose }: CardFormProps) {
+  const [value, setValue] = useState<File | null>(null);
+  const [imageSubmitted, setImage] = useState<string | null>(null);
+  function handleClose(addedData: boolean) {
+    onClose();
+    if (addedData) {
+      //save data
+    }
+  }
+
+  function handleChange(newValue: File | null) {
+    setValue(newValue);
+    if (newValue) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result as string;
+        setImage(dataURL);
+      };
+      reader.readAsDataURL(newValue!);
+    }
   }
 
   return (
-    <Container
-      maxWidth="sm"
-      className="addCardContainer"
-      style={{ display: visibility }}
-    >
-      {" "}
-      <form className="form-container">
-        <input type="text" id="title" placeholder="Title"></input>
-        <input type="author" id="author" placeholder="Author"></input>
-        <input type="pages" id="pages" placeholder="Pages"></input>
-        <button type="submit" onClick={handleDisplay}>
-          Submit
-        </button>
-      </form>
-    </Container>
+    <Dialog open={visibility} onClose={handleClose}>
+      <DialogTitle>Add Post</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          To add a post, please give it a title, description, and an image
+          (optional)
+        </DialogContentText>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Title"
+          type="email"
+          fullWidth
+          variant="standard"
+        />
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Description"
+          type="email"
+          fullWidth
+          variant="standard"
+        />
+        <MuiFileInput value={value} onChange={handleChange} />
+        {imageSubmitted && <Image src={imageSubmitted!} />}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => handleClose(true)}>Add Post</Button>
+        <Button onClick={() => handleClose(false)}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
