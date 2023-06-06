@@ -7,22 +7,33 @@ import ResponsiveAppBar from "../Components/Navbar/Navbar";
 
 export default function HomeScreen() {
   const [getCards, setCards] = useState<any>();
-  const [isFormVisible, setIsFormVisible] = useState<string>("none");
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
   function handleFormVisibility() {
-    setIsFormVisible("block");
+    setIsFormVisible(true);
+  }
+
+  function closeForm() {
+    setIsFormVisible(false);
   }
 
   return (
     <body id="homeScreen">
       <ResponsiveAppBar />
       <div className="CardContainer">
+        {/* //fix the key */}
         {Array.from({ length: 20 }, (_, index) => (
-          <CardComponent title="" description="" imageUrl="" index={index} />
+          <CardComponent
+            title=""
+            description=""
+            imageUrl=""
+            index={index}
+            key={index}
+          />
         ))}
       </div>
 
-      <CardForm visibility={isFormVisible} />
+      <CardForm visibility={isFormVisible} onClose={closeForm} />
 
       <div className="form-popup container" id="popUpForm"></div>
 
