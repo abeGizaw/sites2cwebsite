@@ -9,7 +9,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import writeUserData from "./homeScreenUtils";
 
 export default function HomeScreen() {
-  const [getCards, setCards] = useState<any>();
+  const [allPosts, setPosts] = useState<any>();
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
 
@@ -31,9 +31,8 @@ export default function HomeScreen() {
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
-
-        // console.log(uid);
-        // ...
+        setPosts(allPosts);
+        console.log(allPosts);
       } else {
         // User is signed out
         navigate("/");
@@ -42,9 +41,7 @@ export default function HomeScreen() {
     return () => {
       unsub();
     };
-  }, [navigate]);
-
-  // console.log(currentUser!.uid);
+  }, [navigate, allPosts]);
 
   return (
     <div className="container-xxl" id="homeScreen">
