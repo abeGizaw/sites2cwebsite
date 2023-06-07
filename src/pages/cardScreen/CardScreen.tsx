@@ -37,15 +37,27 @@ export default function CardScreen() {
   return (
     <div className="container-xxl" id="singleCardScreen">
       <ResponsiveAppBar />
-      {currentCard && (
-        <CardComponent
-          postKey={postKey}
-          title={currentCard.title} // Provide appropriate values for title, description, and imageUrl
-          description={currentCard.description}
-          imageUrl={currentCard.imageUrl}
-          key={0}
-        />
-      )}
+      <div className="currentCardOnScreen container-xxl">
+        {currentCard && (
+          <>
+            <CardComponent
+              postKey={postKey}
+              title={currentCard.title} // Provide appropriate values for title, description, and imageUrl
+              description={currentCard.description}
+              imageUrl={currentCard.imageUrl}
+              key={0}
+            />
+            <div className="buttonContainer">
+              <button type="button" className="btn btn-lg btn-primary">
+                Edit
+              </button>
+              <button type="button" className="btn btn-lg btn-danger">
+                Delete
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
