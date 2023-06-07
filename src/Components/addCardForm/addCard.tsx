@@ -55,6 +55,8 @@ export default function CardForm({
         setImage(dataURL);
       };
       reader.readAsDataURL(newValue!);
+    } else {
+      setImage(null);
     }
   }
 
@@ -64,9 +66,9 @@ export default function CardForm({
       <DialogContent>
         <DialogContentText>
           To add a post, please give it a title, description, and an image
-          (optional)
         </DialogContentText>
         <TextField
+          required
           autoFocus
           margin="dense"
           id="name"
@@ -76,9 +78,9 @@ export default function CardForm({
           variant="standard"
           value={currentTitle}
           onChange={(e) => setTitle(e.target.value)}
-          required
         />
         <TextField
+          required
           autoFocus
           margin="dense"
           id="name"
@@ -88,13 +90,22 @@ export default function CardForm({
           variant="standard"
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
-          required
         />
-        <MuiFileInput value={newFile} onChange={handleChange} />
+        <MuiFileInput value={newFile} onChange={handleChange} required />
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)}>Add Post</Button>
+        <Button
+          onClick={() => handleClose(true)}
+          disabled={
+            currentTitle.length === 0 ||
+            currentDesc.length === 0 ||
+            imageSubmitted == null ||
+            imageSubmitted!.length === 0
+          }
+        >
+          Add Post
+        </Button>
         <Button onClick={() => handleClose(false)}>Cancel</Button>
       </DialogActions>
     </Dialog>

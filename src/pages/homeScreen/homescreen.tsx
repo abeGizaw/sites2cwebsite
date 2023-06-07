@@ -57,22 +57,24 @@ export default function HomeScreen() {
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
-      const cardDataArray = Object.values(data) as Array<{
-        cardTitle: string;
-        cardDescription: string;
-        cardImage: string;
-      }>;
-      let allCurrentCards: CardProps[] = [];
-      cardDataArray.forEach((currentEntry) => {
-        console.log(currentEntry.cardTitle);
-        const currentCard: CardProps = {
-          title: currentEntry.cardTitle,
-          description: currentEntry.cardDescription,
-          imageUrl: currentEntry.cardImage!,
-        };
-        allCurrentCards.push(currentCard);
-      });
-      handlePosts(allCurrentCards);
+      if (data) {
+        const cardDataArray = Object.values(data) as Array<{
+          cardTitle: string;
+          cardDescription: string;
+          cardImage: string;
+        }>;
+        let allCurrentCards: CardProps[] = [];
+        cardDataArray.forEach((currentEntry) => {
+          console.log(currentEntry.cardTitle);
+          const currentCard: CardProps = {
+            title: currentEntry.cardTitle,
+            description: currentEntry.cardDescription,
+            imageUrl: currentEntry.cardImage!,
+          };
+          allCurrentCards.push(currentCard);
+        });
+        handlePosts(allCurrentCards);
+      }
       // ...
     });
   }, []);
