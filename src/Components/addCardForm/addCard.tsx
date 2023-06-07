@@ -10,10 +10,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
+import { CardProps } from "../Cards/Card";
 
 interface CardFormProps {
   visibility: boolean;
-  onClose: () => void;
+  onClose: (newPost: CardProps) => void;
 }
 
 export default function CardForm({ visibility, onClose }: CardFormProps) {
@@ -23,13 +24,16 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
   const [currentDesc, setDesc] = useState<string>("");
 
   function handleClose(addedData: boolean) {
-    onClose();
     if (addedData) {
       writePost({
         title: currentTitle,
         description: currentDesc,
         imageUrl: imageSubmitted!,
-        index: 2,
+      });
+      onClose({
+        title: currentTitle,
+        description: currentDesc,
+        imageUrl: imageSubmitted!,
       });
     }
   }
@@ -64,6 +68,7 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
           variant="standard"
           value={currentTitle}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         <TextField
           autoFocus
@@ -75,6 +80,7 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
           variant="standard"
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
+          required
         />
         <MuiFileInput value={newFile} onChange={handleChange} />
         {imageSubmitted && <Image src={imageSubmitted!} />}

@@ -7,9 +7,14 @@ import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
 import writeUserData from "./homeScreenUtils";
+import { getAllPosts } from "./homeScreenUtils";
+import { CardProps } from "../../Components/Cards/Card";
+import { DataSnapshot } from "firebase/database";
 
 export default function HomeScreen() {
-  const [allPosts, setPosts] = useState<any>();
+  console.log(getAllPosts());
+
+  const [allPosts, setPosts] = useState<CardProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
 
@@ -19,20 +24,25 @@ export default function HomeScreen() {
     setIsFormVisible(true);
   }
 
-  function closeForm() {
+  function closeForm(post: CardProps) {
     setIsFormVisible(false);
+    handlePosts([post]);
   }
 
+  function handlePosts(currentPosts: CardProps[]) {
+    setPosts([...allPosts, ...currentPosts]);
+  }
+
+  console.log("component rendered");
   useEffect(() => {
-    // const auth = getAuth();
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("onAuthStateChanged called");
+
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
-        setPosts(allPosts);
-        console.log(allPosts);
       } else {
         // User is signed out
         navigate("/");
@@ -41,19 +51,43 @@ export default function HomeScreen() {
     return () => {
       unsub();
     };
-  }, [navigate, allPosts]);
+  }, [navigate]);
+
+  useEffect(() => {
+    console.log("ran");
+    getAllPosts().then((snapshot: DataSnapshot) => {
+      // Handle the snapshot data here
+      const data = snapshot.val();
+      const cardDataArray = Object.values(data) as Array<{
+        cardTitle: string;
+        cardDescription: string;
+        cardImage: string;
+      }>;
+      let allCurrentCards: CardProps[] = [];
+      cardDataArray.forEach((currentEntry) => {
+        console.log(currentEntry.cardTitle);
+        const currentCard: CardProps = {
+          title: currentEntry.cardTitle,
+          description: currentEntry.cardDescription,
+          imageUrl: currentEntry.cardImage!,
+        };
+        allCurrentCards.push(currentCard);
+      });
+      handlePosts(allCurrentCards);
+      // ...
+    });
+  }, []);
 
   return (
     <div className="container-xxl" id="homeScreen">
       <ResponsiveAppBar />
       <div className="CardContainer">
         {/* //fix the key */}
-        {Array.from({ length: 20 }, (_, index) => (
+        {allPosts.map((currentPost, index) => (
           <CardComponent
-            title=""
-            description=""
-            imageUrl=""
-            index={index}
+            title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
+            description={currentPost.description}
+            imageUrl={currentPost.imageUrl}
             key={index}
           />
         ))}

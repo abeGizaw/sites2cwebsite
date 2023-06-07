@@ -9,30 +9,27 @@ export interface CardProps {
   title: string;
   description: string;
   imageUrl: string;
-  index: number;
 }
 export default function CardComponent({
   title,
   description,
   imageUrl,
-  index,
 }: CardProps) {
   return (
-    <Card sx={{ maxWidth: 345 }} key={index}>
+    <Card sx={{ maxWidth: 345 }} key={imageUrl}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="250"
-          image={`https://picsum.photos/id/${index}/300`}
-          alt="https://picsum.photos"
+          image={imageUrl}
+          alt={imageUrl}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>

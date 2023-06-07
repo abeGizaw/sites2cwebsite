@@ -8,6 +8,6 @@ export default function writeUserData(currentUser: User) {
   });
 }
 
-export function getAllPosts() {
-  return get(ref(database, "posts/"));
+export async function getAllPosts() {
+  return await get(ref(database, "posts/"));
 }
