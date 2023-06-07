@@ -12,8 +12,6 @@ import { CardProps } from "../../Components/Cards/Card";
 import { DataSnapshot } from "firebase/database";
 
 export default function HomeScreen() {
-  console.log(getAllPosts());
-
   const [allPosts, setPosts] = useState<CardProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
@@ -29,15 +27,15 @@ export default function HomeScreen() {
   }
 
   function handlePosts(currentPosts: CardProps[]) {
-    setPosts([...allPosts, ...currentPosts]);
+    // console.trace("hanlde called");
+    setPosts((currentAllPosts) => {
+      return [...currentAllPosts, ...currentPosts];
+    });
   }
 
-  console.log("component rendered");
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("onAuthStateChanged called");
-
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
@@ -53,27 +51,23 @@ export default function HomeScreen() {
   }, [navigate]);
 
   useEffect(() => {
-    console.log("ran");
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
       if (data) {
-        const cardDataArray = Object.values(data) as Array<{
+        const cardDataArray: CardProps[] = (
+        Object.values(data) as Array<{
           cardTitle: string;
           cardDescription: string;
           cardImage: string;
-        }>;
-        let allCurrentCards: CardProps[] = [];
-        cardDataArray.forEach((currentEntry) => {
-          console.log(currentEntry.cardTitle);
-          const currentCard: CardProps = {
-            title: currentEntry.cardTitle,
-            description: currentEntry.cardDescription,
-            imageUrl: currentEntry.cardImage!,
-          };
-          allCurrentCards.push(currentCard);
-        });
-        handlePosts(allCurrentCards);
+        }>
+      ).map((currentEntry) => ({
+        title: currentEntry.cardTitle,
+        description: currentEntry.cardDescription,
+        imageUrl: currentEntry.cardImage,
+      }));
+
+      handlePosts(cardDataArray);
       }
       // ...
     });
