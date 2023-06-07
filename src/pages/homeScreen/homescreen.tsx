@@ -15,6 +15,7 @@ export default function HomeScreen() {
   const [allPosts, setPosts] = useState<CardProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
+  const [postKeys, setPostKeys] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
@@ -30,6 +31,12 @@ export default function HomeScreen() {
     // console.trace("hanlde called");
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
+    });
+  }
+
+  function handlePostKeys(currentKeys: string[]) {
+    setPostKeys((currentAllKeys) => {
+      return [...currentAllKeys, ...currentKeys];
     });
   }
 
@@ -54,6 +61,9 @@ export default function HomeScreen() {
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
+      let postKeys: string[] = Object.keys(data) as string[];
+      console.log(postKeys);
+
       const cardDataArray: CardProps[] = (
         Object.values(data) as Array<{
           cardTitle: string;
@@ -66,7 +76,12 @@ export default function HomeScreen() {
         imageUrl: currentEntry.cardImage,
       }));
 
+      // cardDataArray.forEach((cardData) => {
+      //   console.log(cardData.imageUrl.split("/").pop());
+      // });
+
       handlePosts(cardDataArray);
+      handlePostKeys(postKeys);
       // ...
     });
   }, []);
@@ -78,6 +93,7 @@ export default function HomeScreen() {
         {/* //fix the key */}
         {allPosts.map((currentPost, index) => (
           <CardComponent
+            postKey={postKeys[index]}
             title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
