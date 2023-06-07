@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { createSvgIcon } from "@mui/material/utils";
 import { userSignout } from "../../utilities/utilities";
 import { useNavigate } from "react-router-dom";
+import "./navbar.css";
 
 const pages = ["All Posts", "My Posts"];
 const HomeIcon = createSvgIcon(
@@ -30,21 +31,13 @@ function ResponsiveAppBar() {
             <HomeIcon />
           </Box>
 
-          {/* //Sites2C Text */}
+          {/* //Sites2C*/}
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="/homeScreen"
-            sx={{
-              display: { xs: "none", md: "flex" },
-              color: "white",
-              fontFamily: "roboto",
-              fontWeight: 600,
-              letterSpacing: ".2rem",
-              textDecoration: "none",
-              paddingLeft: 2,
-            }}
+            id="titleText"
           >
             Sites2C
           </Typography>
@@ -70,14 +63,6 @@ function ResponsiveAppBar() {
 
           {/* //LOGOUT BUTTON */}
           <button
-            style={{
-              color: "white",
-              fontFamily: "Roboto",
-              fontWeight: 450,
-              letterSpacing: ".1em",
-              fontSize: 14,
-              borderColor: "white",
-            }}
             id="logoutButton"
             type="button"
             className="btn PRIMARY"

@@ -1,4 +1,28 @@
-#logoutButton{
-    background-color: red;
-    border-color: black;
+#titleText {
+    display: flex;
+    color: white;
+    font-family: roboto;
+    font-weight: 600;
+    letter-spacing: .2rem;
+    text-decoration: none;
+    padding-left: 10;
+}
+
+#titleText:hover {
+    color: lightblue;
+    text-decoration: underline;
+}
+
+#logoutButton {
+    color: white;
+    font-family: Roboto;
+    font-weight: 450;
+    letter-spacing: .1em;
+    font-size: 14;
+    border-color: white;
+}
+
+#logoutButton:hover {
+    background-color:white;
+    color: grey;
 }

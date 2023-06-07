@@ -40,6 +40,7 @@ export default function HomeScreen() {
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
+        //console.log(currentUser!.uid);
       } else {
         // User is signed out
         navigate("/");
@@ -69,7 +70,6 @@ export default function HomeScreen() {
 
         handlePosts(cardDataArray);
       }
-      // ...
     });
   }, []);
 
@@ -88,11 +88,14 @@ export default function HomeScreen() {
         ))}
       </div>
 
-      <CardForm
-        visibility={isFormVisible}
-        onClose={closeForm}
-        addPost={handlePosts}
-      />
+      {currentUser && (
+        <CardForm
+          visibility={isFormVisible}
+          onClose={closeForm}
+          addPost={handlePosts}
+          user={currentUser}
+        />
+      )}
 
       <div className="form-popup container" id="popUpForm"></div>
 

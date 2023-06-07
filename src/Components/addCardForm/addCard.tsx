@@ -11,30 +11,36 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
+import { useForkRef } from "@mui/material";
+import { User } from "firebase/auth";
 
 interface CardFormProps {
   visibility: boolean;
   onClose: () => void;
   addPost: (newPost: CardProps[]) => void;
+  user?: User | null;
 }
 
 export default function CardForm({
   visibility,
   onClose,
   addPost,
+  user,
 }: CardFormProps) {
   const [newFile, setValue] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-
   function handleClose(addedData: boolean) {
     if (addedData) {
-      writePost({
-        title: currentTitle,
-        description: currentDesc,
-        imageUrl: imageSubmitted!,
-      });
+      writePost(
+        {
+          title: currentTitle,
+          description: currentDesc,
+          imageUrl: imageSubmitted!,
+        },
+        user!
+      );
       addPost([
         {
           title: currentTitle,
@@ -43,6 +49,9 @@ export default function CardForm({
         },
       ]);
     }
+    setTitle("");
+    setDesc("");
+    handleChange(null);
     onClose();
   }
 
