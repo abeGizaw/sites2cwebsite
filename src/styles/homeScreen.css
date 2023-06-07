@@ -3,13 +3,25 @@
   flex-direction: row;
   gap: 10px;
   flex-wrap: wrap;
+  padding: 10px
 }
 
 #addEntryButton {
-  border-color: #4285F4;
+  color: white;
+  background-color: #4285F4;
+  border-color: white;
+  border-radius: 8px;
+  border-width: 0.2em;
   position: fixed;
+  margin: 0px;
   bottom: 20px;
   right: 20px;
+}
+
+#addEntryButton:hover {
+  color: #4285F4;
+  background-color: white;
+  border-color: #4285F4;
 }
 
 #addIcon {

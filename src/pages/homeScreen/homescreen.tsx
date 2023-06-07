@@ -47,6 +47,7 @@ export default function HomeScreen() {
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
+        //console.log(currentUser!.uid);
       } else {
         // User is signed out
         navigate("/");
@@ -61,27 +62,29 @@ export default function HomeScreen() {
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
-      let postKeys: string[] = Object.keys(data) as string[];
-      console.log(postKeys);
+      if (data) {
+        let postKeys: string[] = Object.keys(data) as string[];
+        console.log(postKeys);
 
-      const cardDataArray: CardProps[] = (
-        Object.values(data) as Array<{
-          cardTitle: string;
-          cardDescription: string;
-          cardImage: string;
-        }>
-      ).map((currentEntry) => ({
-        title: currentEntry.cardTitle,
-        description: currentEntry.cardDescription,
-        imageUrl: currentEntry.cardImage,
-      }));
+        const cardDataArray: CardProps[] = (
+          Object.values(data) as Array<{
+            cardTitle: string;
+            cardDescription: string;
+            cardImage: string;
+          }>
+        ).map((currentEntry) => ({
+          title: currentEntry.cardTitle,
+          description: currentEntry.cardDescription,
+          imageUrl: currentEntry.cardImage,
+        }));
 
-      // cardDataArray.forEach((cardData) => {
-      //   console.log(cardData.imageUrl.split("/").pop());
-      // });
+        // cardDataArray.forEach((cardData) => {
+        //   console.log(cardData.imageUrl.split("/").pop());
+        // });
 
-      handlePosts(cardDataArray);
-      handlePostKeys(postKeys);
+        handlePosts(cardDataArray);
+        handlePostKeys(postKeys);
+      }
       // ...
     });
   }, []);
@@ -102,11 +105,14 @@ export default function HomeScreen() {
         ))}
       </div>
 
-      <CardForm
-        visibility={isFormVisible}
-        onClose={closeForm}
-        addPost={handlePosts}
-      />
+      {currentUser && (
+        <CardForm
+          visibility={isFormVisible}
+          onClose={closeForm}
+          addPost={handlePosts}
+          user={currentUser}
+        />
+      )}
 
       <div className="form-popup container" id="popUpForm"></div>
 

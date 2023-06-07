@@ -11,30 +11,36 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
+import { useForkRef } from "@mui/material";
+import { User } from "firebase/auth";
 
 interface CardFormProps {
   visibility: boolean;
   onClose: () => void;
   addPost: (newPost: CardProps[]) => void;
+  user?: User | null;
 }
 
 export default function CardForm({
   visibility,
   onClose,
   addPost,
+  user,
 }: CardFormProps) {
   const [newFile, setValue] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-
   function handleClose(addedData: boolean) {
     if (addedData) {
-      writePost({
-        title: currentTitle,
-        description: currentDesc,
-        imageUrl: imageSubmitted!,
-      });
+      writePost(
+        {
+          title: currentTitle,
+          description: currentDesc,
+          imageUrl: imageSubmitted!,
+        },
+        user!
+      );
       addPost([
         {
           title: currentTitle,
@@ -43,6 +49,9 @@ export default function CardForm({
         },
       ]);
     }
+    setTitle("");
+    setDesc("");
+    handleChange(null);
     onClose();
   }
 
@@ -55,6 +64,8 @@ export default function CardForm({
         setImage(dataURL);
       };
       reader.readAsDataURL(newValue!);
+    } else {
+      setImage(null);
     }
   }
 
@@ -64,9 +75,9 @@ export default function CardForm({
       <DialogContent>
         <DialogContentText>
           To add a post, please give it a title, description, and an image
-          (optional)
         </DialogContentText>
         <TextField
+          required
           autoFocus
           margin="dense"
           id="name"
@@ -76,9 +87,9 @@ export default function CardForm({
           variant="standard"
           value={currentTitle}
           onChange={(e) => setTitle(e.target.value)}
-          required
         />
         <TextField
+          required
           autoFocus
           margin="dense"
           id="name"
@@ -88,13 +99,22 @@ export default function CardForm({
           variant="standard"
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
-          required
         />
-        <MuiFileInput value={newFile} onChange={handleChange} />
+        <MuiFileInput value={newFile} onChange={handleChange} required />
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)}>Add Post</Button>
+        <Button
+          onClick={() => handleClose(true)}
+          disabled={
+            currentTitle.length === 0 ||
+            currentDesc.length === 0 ||
+            imageSubmitted == null ||
+            imageSubmitted!.length === 0
+          }
+        >
+          Add Post
+        </Button>
         <Button onClick={() => handleClose(false)}>Cancel</Button>
       </DialogActions>
     </Dialog>
