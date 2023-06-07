@@ -38,11 +38,12 @@ function ResponsiveAppBar() {
             href="/homeScreen"
             sx={{
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              color: "white",
+              fontFamily: "roboto",
+              fontWeight: 600,
+              letterSpacing: ".2rem",
               textDecoration: "none",
+              paddingLeft: 2,
             }}
           >
             Sites2C
@@ -69,6 +70,14 @@ function ResponsiveAppBar() {
 
           {/* //LOGOUT BUTTON */}
           <button
+            style={{
+              color: "white",
+              fontFamily: "Roboto",
+              fontWeight: 450,
+              letterSpacing: ".1em",
+              fontSize: 14,
+              borderColor: "white",
+            }}
             id="logoutButton"
             type="button"
             className="btn PRIMARY"

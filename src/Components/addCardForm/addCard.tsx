@@ -14,10 +14,15 @@ import { CardProps } from "../Cards/Card";
 
 interface CardFormProps {
   visibility: boolean;
-  onClose: (newPost: CardProps) => void;
+  onClose: () => void;
+  addPost: (newPost: CardProps[]) => void;
 }
 
-export default function CardForm({ visibility, onClose }: CardFormProps) {
+export default function CardForm({
+  visibility,
+  onClose,
+  addPost,
+}: CardFormProps) {
   const [newFile, setValue] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
@@ -30,12 +35,15 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
         description: currentDesc,
         imageUrl: imageSubmitted!,
       });
-      onClose({
-        title: currentTitle,
-        description: currentDesc,
-        imageUrl: imageSubmitted!,
-      });
+      addPost([
+        {
+          title: currentTitle,
+          description: currentDesc,
+          imageUrl: imageSubmitted!,
+        },
+      ]);
     }
+    onClose();
   }
 
   function handleChange(newValue: File | null) {
