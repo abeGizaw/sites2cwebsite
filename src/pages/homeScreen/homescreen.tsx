@@ -24,9 +24,8 @@ export default function HomeScreen() {
     setIsFormVisible(true);
   }
 
-  function closeForm(post: CardProps) {
+  function closeForm() {
     setIsFormVisible(false);
-    handlePosts([post]);
   }
 
   function handlePosts(currentPosts: CardProps[]) {
@@ -93,7 +92,11 @@ export default function HomeScreen() {
         ))}
       </div>
 
-      <CardForm visibility={isFormVisible} onClose={closeForm} />
+      <CardForm
+        visibility={isFormVisible}
+        onClose={closeForm}
+        addPost={handlePosts}
+      />
 
       <div className="form-popup container" id="popUpForm"></div>
 
