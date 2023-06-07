@@ -6,7 +6,7 @@
 }
 
 #addEntryButton {
-  border-color: red;
+  border-color: #4285F4;
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -30,4 +30,5 @@
 .addCardContainer{
   border-color: aqua;
 }
+
 

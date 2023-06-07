@@ -10,28 +10,40 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
+import { CardProps } from "../Cards/Card";
 
 interface CardFormProps {
   visibility: boolean;
   onClose: () => void;
+  addPost: (newPost: CardProps[]) => void;
 }
 
-export default function CardForm({ visibility, onClose }: CardFormProps) {
+export default function CardForm({
+  visibility,
+  onClose,
+  addPost,
+}: CardFormProps) {
   const [newFile, setValue] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
 
   function handleClose(addedData: boolean) {
-    onClose();
     if (addedData) {
       writePost({
         title: currentTitle,
         description: currentDesc,
         imageUrl: imageSubmitted!,
-        index: 2,
       });
+      addPost([
+        {
+          title: currentTitle,
+          description: currentDesc,
+          imageUrl: imageSubmitted!,
+        },
+      ]);
     }
+    onClose();
   }
 
   function handleChange(newValue: File | null) {
@@ -64,6 +76,7 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
           variant="standard"
           value={currentTitle}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         <TextField
           autoFocus
@@ -75,6 +88,7 @@ export default function CardForm({ visibility, onClose }: CardFormProps) {
           variant="standard"
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
+          required
         />
         <MuiFileInput value={newFile} onChange={handleChange} />
         {imageSubmitted && <Image src={imageSubmitted!} />}
