@@ -56,18 +56,18 @@ export default function HomeScreen() {
       const data = snapshot.val();
       if (data) {
         const cardDataArray: CardProps[] = (
-        Object.values(data) as Array<{
-          cardTitle: string;
-          cardDescription: string;
-          cardImage: string;
-        }>
-      ).map((currentEntry) => ({
-        title: currentEntry.cardTitle,
-        description: currentEntry.cardDescription,
-        imageUrl: currentEntry.cardImage,
-      }));
+          Object.values(data) as Array<{
+            cardTitle: string;
+            cardDescription: string;
+            cardImage: string;
+          }>
+        ).map((currentEntry) => ({
+          title: currentEntry.cardTitle,
+          description: currentEntry.cardDescription,
+          imageUrl: currentEntry.cardImage,
+        }));
 
-      handlePosts(cardDataArray);
+        handlePosts(cardDataArray);
       }
       // ...
     });
