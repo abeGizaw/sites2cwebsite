@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import "../../styles/Login.css";
+import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
 import CardComponent from "../../Components/Cards/Card";
 import ResponsiveAppBar from "../../Components/Navbar/Navbar";
@@ -14,8 +14,6 @@ export default function CardScreen() {
   const currentUrl = location.pathname;
   const postKey = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
 
-  console.log(postKey);
-
   function updateCurrentCard(cardTpUpdate: CardProps) {
     setCurrentCard(() => cardTpUpdate);
   }
@@ -23,8 +21,8 @@ export default function CardScreen() {
   useEffect(() => {
     getCurrentCard(postKey).then((snapshot: DataSnapshot) => {
       const data = snapshot.val();
+
       console.log(data);
-      console.log(data.title);
 
       const currentCardInfo: CardProps = {
         title: data.cardTitle,
