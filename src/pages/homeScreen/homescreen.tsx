@@ -54,7 +54,8 @@ export default function HomeScreen() {
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
-      const cardDataArray: CardProps[] = (
+      if (data) {
+        const cardDataArray: CardProps[] = (
         Object.values(data) as Array<{
           cardTitle: string;
           cardDescription: string;
@@ -67,6 +68,7 @@ export default function HomeScreen() {
       }));
 
       handlePosts(cardDataArray);
+      }
       // ...
     });
   }, []);
