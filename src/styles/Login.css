@@ -62,12 +62,13 @@
   padding-right: 10px;
   background-color: #4285F4;
   font-weight: 800px;
-  border-color: #89919a;
-  border-width: 1px;
-  border-style:groove;
-  transition-duration: 0.4s;
+  border-color: #4285F4;
+  border-width: 2px;
+  border-style: solid;
+  transition-duration: 0.2s;
 }
 
 .signInButton:hover {
   background-color: #6ea1f5;
+  border-color: white;
 }
