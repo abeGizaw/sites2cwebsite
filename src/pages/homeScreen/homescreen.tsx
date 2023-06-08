@@ -72,10 +72,11 @@ export default function HomeScreen() {
             cardDescription: string;
             cardImage: string;
           }>
-        ).map((currentEntry) => ({
+        ).map((currentEntry, index) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
+          postKey: postKeys[index],
         }));
 
         // cardDataArray.forEach((cardData) => {

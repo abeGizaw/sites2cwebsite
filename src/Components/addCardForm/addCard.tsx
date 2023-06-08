@@ -48,11 +48,28 @@ export default function CardForm({
           imageUrl: imageSubmitted!,
         },
       ]);
+      clearForm();
     }
+    onClose();
+  }
+
+  function clearForm() {
     setTitle("");
     setDesc("");
     handleChange(null);
-    onClose();
+  }
+
+  function validateForm() {
+    if (
+      currentTitle.length === 0 ||
+      currentDesc.length === 0 ||
+      imageSubmitted == null ||
+      imageSubmitted!.length === 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function handleChange(newValue: File | null) {
@@ -104,15 +121,7 @@ export default function CardForm({
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => handleClose(true)}
-          disabled={
-            currentTitle.length === 0 ||
-            currentDesc.length === 0 ||
-            imageSubmitted == null ||
-            imageSubmitted!.length === 0
-          }
-        >
+        <Button onClick={() => handleClose(true)} disabled={validateForm()}>
           Add Post
         </Button>
         <Button onClick={() => handleClose(false)}>Cancel</Button>

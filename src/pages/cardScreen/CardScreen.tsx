@@ -7,6 +7,8 @@ import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import { DataSnapshot, update } from "firebase/database";
 import getCurrentCard from "./cardScreenUtils";
 import EditCardForm from "../../Components/editCardForm/editCard";
+import { removeCurrentCard } from "./cardScreenUtils";
+import { useNavigate } from "react-router-dom";
 
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
@@ -15,6 +17,7 @@ export default function CardScreen() {
   const location = useLocation();
   const currentUrl = location.pathname;
   const postKey = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
+  const navigate = useNavigate();
 
   function updateCurrentCard(cardTpUpdate: CardProps) {
     setCurrentCard(() => cardTpUpdate);
@@ -26,6 +29,11 @@ export default function CardScreen() {
 
   function closeForm() {
     setIsFormVisible(false);
+  }
+
+  function deleteEntry() {
+    removeCurrentCard(postKey).then((snapshot: void) => {});
+    navigate("/homeScreen");
   }
 
   useEffect(() => {
@@ -74,7 +82,11 @@ export default function CardScreen() {
               >
                 Edit
               </button>
-              <button type="button" className="btn btn-lg btn-danger">
+              <button
+                type="button"
+                className="btn btn-lg btn-danger"
+                onClick={deleteEntry}
+              >
                 Delete
               </button>
             </div>
