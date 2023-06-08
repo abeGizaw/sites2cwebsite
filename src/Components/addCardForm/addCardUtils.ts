@@ -10,7 +10,7 @@ import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 
 export default function writePost(
-  { title, description, imageUrl }: CardProps,
+  { title, description }: CardProps,
   currentUser: User,
   file: File
 ) {
@@ -21,8 +21,7 @@ export default function writePost(
       update(ref(database, "posts/" + postKey), {
         cardTitle: title,
         cardDescription: description,
-        cardImage: imageUrl,
-        cardImage2: url,
+        cardImage: url,
       });
     });
   });
