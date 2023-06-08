@@ -9,10 +9,13 @@ import getCurrentCard from "./cardScreenUtils";
 import EditCardForm from "../../Components/editCardForm/editCard";
 import { removeCurrentCard } from "./cardScreenUtils";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase-config";
+import { User } from "firebase/auth";
 
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [currentUser, setUser] = useState<User | null>(auth.currentUser);
 
   const location = useLocation();
   const currentUrl = location.pathname;
@@ -46,16 +49,13 @@ export default function CardScreen() {
         imageUrl: data.cardImage,
         userId: data.userId,
       };
-
       updateCurrentCard(currentCardInfo);
     });
   }, [postKey]);
 
   return (
     <div className="container-xxl" id="singleCardScreen">
-      <ResponsiveAppBar
-        userId={currentCard?.userId ? currentCard.userId : null}
-      />
+      <ResponsiveAppBar userId={currentUser?.uid ? currentUser.uid : null} />
       <div className="currentCardOnScreen container-xxl">
         {currentCard && (
           <>
