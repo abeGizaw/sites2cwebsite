@@ -10,10 +10,12 @@ import writeUserData from "./homeScreenUtils";
 import { getAllPosts } from "./homeScreenUtils";
 import { CardProps } from "../../Components/Cards/Card";
 import { DataSnapshot } from "firebase/database";
+import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
 
 export default function HomeScreen() {
   const [allPosts, setPosts] = useState<CardProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [loadingIconVisible, setLoadingIconVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
   const [postKeys, setPostKeys] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ export default function HomeScreen() {
 
   function closeForm() {
     setIsFormVisible(false);
+    setLoadingIconVisible(true);
   }
 
   function handleDisplayPosts(currentPosts: CardProps[]) {
@@ -34,6 +37,7 @@ export default function HomeScreen() {
     if (currentPosts.length === 1) {
       handlePostKeys([currentPosts[0].postKey!]);
     }
+    setLoadingIconVisible(false);
   }
 
   function handlePostKeys(currentKeys: string[]) {
@@ -111,6 +115,8 @@ export default function HomeScreen() {
           user={currentUser}
         />
       )}
+
+      <LoadingIcon visible={loadingIconVisible} />
 
       <div className="form-popup container" id="popUpForm"></div>
 

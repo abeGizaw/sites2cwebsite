@@ -12,6 +12,7 @@ import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
 import { User } from "firebase/auth";
+import ReactLoading from "react-loading";
 
 interface CardFormProps {
   visibility: boolean;
@@ -30,9 +31,20 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-  function handleClose(addedData: boolean) {
+  async function handleClose(addedData: boolean) {
+    onClose();
+
     if (addedData) {
-      const newPostKey = writePost(
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        event.preventDefault();
+        event.returnValue =
+          "Leaving now won't save the post you just made. Are you sure you want to leave?";
+
+        return "Leaving now won't save the post you just made. Are you sure you want to leave?";
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      const newPostKey = await writePost(
         {
           title: currentTitle,
           description: currentDesc,
@@ -53,8 +65,8 @@ export default function CardForm({
         },
       ]);
       clearForm();
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     }
-    onClose();
   }
 
   function clearForm() {
