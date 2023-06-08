@@ -98,6 +98,7 @@ export default function HomeScreen() {
             title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
+            user={currentUser}
             key={index}
           />
         ))}

@@ -40,8 +40,6 @@ export default function CardScreen() {
     getCurrentCard(postKey).then((snapshot: DataSnapshot) => {
       const data = snapshot.val();
 
-      console.log(data);
-
       const currentCardInfo: CardProps = {
         title: data.cardTitle,
         description: data.cardDescription,

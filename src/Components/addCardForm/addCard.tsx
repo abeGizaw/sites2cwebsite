@@ -26,7 +26,7 @@ export default function CardForm({
   addPost,
   user,
 }: CardFormProps) {
-  const [newFile, setValue] = useState<File | null>(null);
+  const [newFile, setFile] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
@@ -41,7 +41,6 @@ export default function CardForm({
         user!
       );
 
-      console.log(newPostKey);
       addPost([
         {
           title: currentTitle,
@@ -61,6 +60,19 @@ export default function CardForm({
     handleChange(null);
   }
 
+  function validateFile(fileToValidate: File) {
+    const fileExtension = fileToValidate.name.split(".").pop()?.toLowerCase();
+    if (
+      fileExtension === "png" ||
+      fileExtension === "jpg" ||
+      fileExtension === "jpeg"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function validateForm(fileInput: File | null) {
     if (
       currentTitle.length === 0 ||
@@ -69,40 +81,27 @@ export default function CardForm({
       imageSubmitted!.length === 0 ||
       !fileInput
     ) {
-      return true;
-    } else {
-      const fileExtension = fileInput.name.split(".").pop()?.toLowerCase();
-      if (
-        fileExtension !== "png" &&
-        fileExtension !== "jpg" &&
-        fileExtension !== "jpeg"
-      ) {
-        return true;
-      }
+      return false;
+    } else if (!validateFile(fileInput)) {
       return false;
     }
+    return true;
   }
 
-  function handleChange(newValue: File | null) {
-    if (newValue) {
-      const fileExtension = newValue.name.split(".").pop()?.toLowerCase();
-      if (
-        fileExtension === "png" ||
-        fileExtension === "jpg" ||
-        fileExtension === "jpeg"
-      ) {
-        console.log("valid");
-        setValue(newValue);
+  function handleChange(newFile: File | null) {
+    if (newFile) {
+      if (validateFile(newFile)) {
+        setFile(newFile);
 
         const reader = new FileReader();
         reader.onload = () => {
           const dataURL = reader.result as string;
           setImage(dataURL);
         };
-        reader.readAsDataURL(newValue!);
+        reader.readAsDataURL(newFile!);
       }
     } else {
-      setImage(null); //why are we doing this
+      setImage(null);
     }
   }
 
@@ -144,7 +143,7 @@ export default function CardForm({
       <DialogActions>
         <Button
           onClick={() => handleClose(true)}
-          disabled={validateForm(newFile)}
+          disabled={!validateForm(newFile)}
         >
           Add Post
         </Button>

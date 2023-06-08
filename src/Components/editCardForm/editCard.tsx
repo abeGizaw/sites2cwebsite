@@ -27,33 +27,44 @@ export default function EditCardForm({
   postKey,
   updateCard,
 }: editCardProps) {
-  const [initialData, setNewData] = useState<CardProps>();
-  const [newFile, setValue] = useState<File | null>(null);
+  const [currentCardOnScreen, setCurrentCardOnScreen] = useState<CardProps>();
+  const [newFile, setFile] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string>(cardOnDisplay.imageUrl);
   const [currentTitle, setTitle] = useState<string>(cardOnDisplay.title);
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
   function handleClose(editedData: boolean) {
     if (editedData) {
-      editPost({
+      const newCardInfo: CardProps = {
         title: currentTitle,
         description: currentDesc,
-        imageUrl: imageSubmitted!,
+        imageUrl: imageSubmitted,
         postKey: postKey,
-      });
-      updateCardOnScreen();
+      };
+      editPost(newCardInfo);
+      updateCardOnScreen(newCardInfo);
     }
     onClose();
   }
 
-  function updateCardOnScreen() {
-    const newCardInfo: CardProps = {
-      title: currentTitle,
-      description: currentDesc,
-      imageUrl: imageSubmitted,
-      postKey: cardOnDisplay.postKey,
-    };
-    setNewData(newCardInfo);
-    updateCard(newCardInfo);
+  function updateCardOnScreen(newCardOnScreen: CardProps) {
+    setCurrentCardOnScreen(newCardOnScreen);
+    updateCard(newCardOnScreen);
+  }
+
+  function validateFile(fileToValidate: File | null) {
+    if (fileToValidate) {
+      const fileExtension = fileToValidate.name.split(".").pop()?.toLowerCase();
+      if (
+        fileExtension === "png" ||
+        fileExtension === "jpg" ||
+        fileExtension === "jpeg"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 
   function validateForm(): boolean | undefined {
@@ -63,26 +74,29 @@ export default function EditCardForm({
       imageSubmitted == null ||
       imageSubmitted!.length === 0
     ) {
-      return true;
+      return false;
     } else if (
-      currentTitle === initialData?.title &&
-      currentDesc === initialData?.description &&
-      imageSubmitted === initialData?.imageUrl
+      currentTitle === currentCardOnScreen?.title &&
+      currentDesc === currentCardOnScreen?.description &&
+      imageSubmitted === currentCardOnScreen?.imageUrl
     ) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 
-  function handleChange(newValue: File | null) {
-    setValue(newValue);
+  function handleFileChange(newValue: File | null) {
     if (newValue) {
+      setFile(newValue);
       const reader = new FileReader();
       reader.onload = () => {
         const dataURL = reader.result as string;
         setImage(dataURL);
       };
       reader.readAsDataURL(newValue);
+    } else {
+      setFile(null);
+      setImage(currentCardOnScreen!.imageUrl);
     }
   }
 
@@ -93,7 +107,7 @@ export default function EditCardForm({
       imageUrl: cardOnDisplay.imageUrl,
       postKey: cardOnDisplay.postKey,
     };
-    setNewData(() => {
+    setCurrentCardOnScreen(() => {
       return currentCardInfo;
     });
   }
@@ -131,11 +145,15 @@ export default function EditCardForm({
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
         />
-        <MuiFileInput value={newFile} onChange={handleChange} required />
+
+        <MuiFileInput value={newFile} onChange={handleFileChange} required />
         {imageSubmitted && <Image src={imageSubmitted} />}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)} disabled={validateForm()}>
+        <Button
+          onClick={() => handleClose(true)}
+          disabled={!validateForm() || !validateFile(newFile)}
+        >
           Submit Change
         </Button>
         <Button onClick={() => handleClose(false)}>Cancel</Button>
