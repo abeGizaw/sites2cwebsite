@@ -27,4 +27,5 @@ export default function writePost(
     });
   });
   push(ref(database, `users/${currentUser.uid}/posts/`), postKey);
+  return postKey;
 }

@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { createSvgIcon } from "@mui/material/utils";
 import { userSignout } from "../../utilities/utilities";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./navbar.css";
 
 const pages = ["All Posts", "My Posts"];
@@ -22,6 +22,8 @@ function ResponsiveAppBar() {
     userSignout(navigate);
   }
 
+  const location = useLocation();
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -36,29 +38,44 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/homeScreen"
+            // href={location.pathname === "/homeScreen" ? "" : "/homeScreen"}
             id="titleText"
           >
             Sites2C
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textAlign: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  gap: 2,
-                }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              href={location.pathname === "/homeScreen" ? "" : "/homeScreen"}
+              key={pages[0]}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+                gap: 2,
+              }}
+            >
+              {pages[0]}
+            </Button>
+
+            <Button
+              href={location.pathname === "/homeScreen" ? "" : "/homeScreen"}
+              key={pages[1]}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                textAlign: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+                gap: 2,
+              }}
+            >
+              {pages[1]}
+            </Button>
           </Box>
 
           {/* //LOGOUT BUTTON */}

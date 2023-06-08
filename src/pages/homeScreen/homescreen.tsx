@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const [allPosts, setPosts] = useState<CardProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
-
+  const [postKeys, setPostKeys] = useState<string[]>([]);
   const navigate = useNavigate();
 
   function handleFormVisibility() {
@@ -26,9 +26,19 @@ export default function HomeScreen() {
     setIsFormVisible(false);
   }
 
-  function handlePosts(currentPosts: CardProps[]) {
+  function handleDisplayPosts(currentPosts: CardProps[]) {
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
+    });
+
+    if (currentPosts.length === 1) {
+      handlePostKeys([currentPosts[0].postKey!]);
+    }
+  }
+
+  function handlePostKeys(currentKeys: string[]) {
+    setPostKeys((currentAllKeys) => {
+      return [...currentAllKeys, ...currentKeys];
     });
   }
 
@@ -54,20 +64,25 @@ export default function HomeScreen() {
       // Handle the snapshot data here
       const data = snapshot.val();
       if (data) {
+        let postKeys: string[] = Object.keys(data) as string[];
+        console.log(postKeys);
+
         const cardDataArray: CardProps[] = (
           Object.values(data) as Array<{
             cardTitle: string;
             cardDescription: string;
             cardImage: string;
           }>
-        ).map((currentEntry) => ({
+        ).map((currentEntry, index) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
+          postKey: postKeys[index],
         }));
-
-        handlePosts(cardDataArray);
+        handleDisplayPosts(cardDataArray);
+        handlePostKeys(postKeys);
       }
+      // ...
     });
   }, []);
 
@@ -78,9 +93,11 @@ export default function HomeScreen() {
         {/* //fix the key */}
         {allPosts.map((currentPost, index) => (
           <CardComponent
+            postKey={postKeys[index]}
             title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
+            user={currentUser}
             key={index}
           />
         ))}
@@ -90,7 +107,7 @@ export default function HomeScreen() {
         <CardForm
           visibility={isFormVisible}
           onClose={closeForm}
-          addPost={handlePosts}
+          addPost={handleDisplayPosts}
           user={currentUser}
         />
       )}
