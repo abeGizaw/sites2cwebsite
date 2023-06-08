@@ -6,9 +6,11 @@ import CardComponent from "../../Components/Cards/Card";
 import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import { DataSnapshot, update } from "firebase/database";
 import getCurrentCard from "./cardScreenUtils";
+import EditCardForm from "../../Components/editCardForm/editCard";
 
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
   const location = useLocation();
   const currentUrl = location.pathname;
@@ -16,6 +18,14 @@ export default function CardScreen() {
 
   function updateCurrentCard(cardTpUpdate: CardProps) {
     setCurrentCard(() => cardTpUpdate);
+  }
+
+  function editEntry() {
+    setIsFormVisible(true);
+  }
+
+  function closeForm() {
+    setIsFormVisible(false);
   }
 
   useEffect(() => {
@@ -47,8 +57,21 @@ export default function CardScreen() {
               imageUrl={currentCard.imageUrl}
               key={0}
             />
+
+            <EditCardForm
+              visibility={isFormVisible}
+              onClose={closeForm}
+              cardOnDisplay={currentCard}
+              postKey={postKey}
+              updateCard={updateCurrentCard}
+            />
+
             <div className="buttonContainer">
-              <button type="button" className="btn btn-lg btn-primary">
+              <button
+                type="button"
+                className="btn btn-lg btn-primary"
+                onClick={editEntry}
+              >
                 Edit
               </button>
               <button type="button" className="btn btn-lg btn-danger">
