@@ -76,6 +76,7 @@ export default function EditCardForm({
       imageSubmitted!.length === 0 ||
       !File
     ) {
+      console.log("empty");
       return false;
     } else if (
       currentTitle === currentCardOnScreen?.title &&
@@ -83,8 +84,12 @@ export default function EditCardForm({
       imageSubmitted === currentCardOnScreen?.imageUrl
     ) {
       return false;
-    } else if (!validateFile(fileToValidate)) {
-      return false;
+    } else if (fileToValidate) {
+      if (!validateFile(fileToValidate)) {
+        return false;
+      } else {
+        return true;
+      }
     }
     return true;
   }

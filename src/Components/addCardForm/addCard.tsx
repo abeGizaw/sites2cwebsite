@@ -42,6 +42,8 @@ export default function CardForm({
         newFile!
       );
 
+      console.log(newPostKey);
+
       addPost([
         {
           title: currentTitle,
