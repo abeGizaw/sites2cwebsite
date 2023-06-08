@@ -1,11 +1,10 @@
-import { ref, get, update, child, push } from "firebase/database";
+import { ref, update, push } from "firebase/database";
 import {
   getDownloadURL,
-  getStorage,
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
-import { database, auth, storage } from "../../firebase-config";
+import { database, storage } from "../../firebase-config";
 import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 
