@@ -57,6 +57,7 @@ export default function CardForm({
   function clearForm() {
     setTitle("");
     setDesc("");
+    setFile(null);
     handleFileChange(null);
   }
 
@@ -65,7 +66,8 @@ export default function CardForm({
     if (
       fileExtension === "png" ||
       fileExtension === "jpg" ||
-      fileExtension === "jpeg"
+      fileExtension === "jpeg" ||
+      fileExtension === "webp"
     ) {
       return true;
     } else {

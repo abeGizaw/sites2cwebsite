@@ -57,7 +57,8 @@ export default function EditCardForm({
       if (
         fileExtension === "png" ||
         fileExtension === "jpg" ||
-        fileExtension === "jpeg"
+        fileExtension === "jpeg" ||
+        fileExtension === "webp"
       ) {
         return true;
       } else {
