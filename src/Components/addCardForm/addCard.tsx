@@ -12,6 +12,7 @@ import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
 import { User } from "firebase/auth";
+import ReactLoading from "react-loading";
 
 interface CardFormProps {
   visibility: boolean;
