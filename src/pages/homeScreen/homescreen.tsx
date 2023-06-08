@@ -27,7 +27,6 @@ export default function HomeScreen() {
   }
 
   function handlePosts(currentPosts: CardProps[]) {
-    // console.trace("hanlde called");
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
     });
@@ -40,7 +39,6 @@ export default function HomeScreen() {
         // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
-        //console.log(currentUser!.uid);
       } else {
         // User is signed out
         navigate("/");

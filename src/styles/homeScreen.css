@@ -9,7 +9,7 @@
 #addEntryButton {
   color: white;
   background-color: #4285F4;
-  border-color: white;
+  border-color: none;
   border-radius: 8px;
   border-width: 0.2em;
   position: fixed;

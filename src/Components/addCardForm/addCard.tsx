@@ -39,7 +39,8 @@ export default function CardForm({
           description: currentDesc,
           imageUrl: imageSubmitted!,
         },
-        user!
+        user!,
+        newFile!
       );
       addPost([
         {
