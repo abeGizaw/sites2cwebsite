@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeScreen from "./homeScreen/homescreen";
 import Login from "./Login";
 import CardScreen from "./cardScreen/CardScreen";
+import UserScreen from "./userCardScreen/UserScreen";
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/homeScreen" element={<HomeScreen />} />
         <Route path="/cardScreen/:cardID" element={<CardScreen />} />
+        <Route path="/cardScreen/:userID" element={<UserScreen />} />
       </Routes>
     </BrowserRouter>
   );

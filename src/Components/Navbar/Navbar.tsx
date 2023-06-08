@@ -62,7 +62,7 @@ function ResponsiveAppBar() {
             </Button>
 
             <Button
-              href={location.pathname === "/homeScreen" ? "" : "/homeScreen"}
+              href="/userScreen/:userID"
               key={pages[1]}
               sx={{
                 my: 2,
