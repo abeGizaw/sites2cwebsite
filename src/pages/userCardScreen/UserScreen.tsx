@@ -4,10 +4,13 @@ import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import getMyPostKeys from "./userScreenUtils";
 import { DataSnapshot } from "firebase/database";
 import CardComponent, { CardProps } from "../../Components/Cards/Card";
+import { auth } from "../../firebase-config";
+import { User } from "firebase/auth";
 
 export default function UserScreen() {
   const [currentUserCards, setCurrentUserCards] = useState<CardProps[]>([]);
   const [currentUserPostkeys, setCurrentUserPostkeys] = useState<string[]>([]);
+  const [currentUser, setUser] = useState<User | null>(auth.currentUser);
 
   const location = useLocation();
   const currentUrl = location.pathname;

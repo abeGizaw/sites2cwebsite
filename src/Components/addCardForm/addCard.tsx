@@ -30,9 +30,9 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-  function handleClose(addedData: boolean) {
+  async function handleClose(addedData: boolean) {
     if (addedData) {
-      const newPostKey = writePost(
+      const newPostKey = await writePost(
         {
           title: currentTitle,
           description: currentDesc,
