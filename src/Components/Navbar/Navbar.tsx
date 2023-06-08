@@ -16,16 +16,16 @@ const HomeIcon = createSvgIcon(
   "Home"
 );
 export interface NavBarProps {
-  user?: User | null;
+  userId?: string | null;
 }
-function ResponsiveAppBar({ user }: NavBarProps) {
+function ResponsiveAppBar({ userId }: NavBarProps) {
   const navigate = useNavigate();
 
   function handleLogout() {
     userSignout(navigate);
   }
 
-  console.log(user);
+  console.log(userId);
 
   const location = useLocation();
 
@@ -67,7 +67,7 @@ function ResponsiveAppBar({ user }: NavBarProps) {
             </Button>
 
             <Button
-              href={user ? `/UserScreen/${user!.uid}` : ""}
+              href={userId ? `/UserScreen/${userId}` : ""}
               key={pages[1]}
               sx={{
                 my: 2,

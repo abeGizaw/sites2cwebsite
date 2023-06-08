@@ -9,8 +9,6 @@ export default function UserScreen() {
   const [currentUserCards, setCurrentUserCards] = useState<CardProps[]>([]);
   const [currentUserPostkeys, setCurrentUserPostkeys] = useState<string[]>([]);
 
-  const navigate = useNavigate();
-
   const location = useLocation();
   const currentUrl = location.pathname;
   const userId = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
@@ -35,14 +33,13 @@ export default function UserScreen() {
         description: currentEntry.cardDescription,
         imageUrl: currentEntry.cardImage,
       }));
-      console.log(cardDataArray);
       setCurrentUserCards(cardDataArray);
     });
   }, []);
 
   return (
     <div className="container-xxl" id="userScreen">
-      <ResponsiveAppBar />
+      <ResponsiveAppBar userId={userId} />
       <div className="CardContainer">
         {/* //fix the key */}
         {currentUserCards.map((currentPost, index) => (
