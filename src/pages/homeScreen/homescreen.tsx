@@ -16,7 +16,6 @@ export default function HomeScreen() {
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
   const [postKeys, setPostKeys] = useState<string[]>([]);
-
   const navigate = useNavigate();
 
   function handleFormVisibility() {
@@ -28,10 +27,13 @@ export default function HomeScreen() {
   }
 
   function handlePosts(currentPosts: CardProps[]) {
-    // console.trace("hanlde called");
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
     });
+
+    if (currentPosts.length === 1) {
+      handlePostKeys([currentPosts[0].postKey!]);
+    }
   }
 
   function handlePostKeys(currentKeys: string[]) {
@@ -78,11 +80,6 @@ export default function HomeScreen() {
           imageUrl: currentEntry.cardImage,
           postKey: postKeys[index],
         }));
-
-        // cardDataArray.forEach((cardData) => {
-        //   console.log(cardData.imageUrl.split("/").pop());
-        // });
-
         handlePosts(cardDataArray);
         handlePostKeys(postKeys);
       }

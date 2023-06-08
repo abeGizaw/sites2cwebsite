@@ -33,7 +33,7 @@ export default function CardForm({
   const [currentDesc, setDesc] = useState<string>("");
   function handleClose(addedData: boolean) {
     if (addedData) {
-      writePost(
+      const newPostKey = writePost(
         {
           title: currentTitle,
           description: currentDesc,
@@ -41,11 +41,14 @@ export default function CardForm({
         },
         user!
       );
+
+      console.log(newPostKey);
       addPost([
         {
           title: currentTitle,
           description: currentDesc,
           imageUrl: imageSubmitted!,
+          postKey: newPostKey!,
         },
       ]);
       clearForm();
