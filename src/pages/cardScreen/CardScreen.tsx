@@ -47,7 +47,6 @@ export default function CardScreen() {
         title: data.cardTitle,
         description: data.cardDescription,
         imageUrl: data.cardImage,
-        userId: data.userId,
       };
       updateCurrentCard(currentCardInfo);
     });

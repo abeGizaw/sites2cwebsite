@@ -22,7 +22,6 @@ export default function writePost(
         cardTitle: title,
         cardDescription: description,
         cardImage: url,
-        userId: currentUser.uid,
       });
       update(ref(database, `users/${currentUser.uid}/posts/${postKey}/`), {
         cardTitle: title,
