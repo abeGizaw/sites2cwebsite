@@ -44,6 +44,7 @@ export default function CardScreen() {
         title: data.cardTitle,
         description: data.cardDescription,
         imageUrl: data.cardImage,
+        userId: data.userId,
       };
 
       updateCurrentCard(currentCardInfo);
@@ -52,7 +53,9 @@ export default function CardScreen() {
 
   return (
     <div className="container-xxl" id="singleCardScreen">
-      <ResponsiveAppBar />
+      <ResponsiveAppBar
+        userId={currentCard?.userId ? currentCard.userId : null}
+      />
       <div className="currentCardOnScreen container-xxl">
         {currentCard && (
           <>
