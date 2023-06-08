@@ -67,12 +67,13 @@ export default function EditCardForm({
     return false;
   }
 
-  function validateForm(): boolean | undefined {
+  function validateForm(fileToValidate: File | null) {
     if (
       currentTitle.length === 0 ||
       currentDesc.length === 0 ||
       imageSubmitted == null ||
-      imageSubmitted!.length === 0
+      imageSubmitted!.length === 0 ||
+      !File
     ) {
       return false;
     } else if (
@@ -80,6 +81,8 @@ export default function EditCardForm({
       currentDesc === currentCardOnScreen?.description &&
       imageSubmitted === currentCardOnScreen?.imageUrl
     ) {
+      return false;
+    } else if (!validateFile(fileToValidate)) {
       return false;
     }
     return true;
@@ -152,7 +155,7 @@ export default function EditCardForm({
       <DialogActions>
         <Button
           onClick={() => handleClose(true)}
-          disabled={!validateForm() || !validateFile(newFile)}
+          disabled={!validateForm(newFile)}
         >
           Submit Change
         </Button>

@@ -57,7 +57,7 @@ export default function CardForm({
   function clearForm() {
     setTitle("");
     setDesc("");
-    handleChange(null);
+    handleFileChange(null);
   }
 
   function validateFile(fileToValidate: File) {
@@ -88,7 +88,7 @@ export default function CardForm({
     return true;
   }
 
-  function handleChange(newFile: File | null) {
+  function handleFileChange(newFile: File | null) {
     if (newFile) {
       if (validateFile(newFile)) {
         setFile(newFile);
@@ -137,7 +137,7 @@ export default function CardForm({
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
         />
-        <MuiFileInput value={newFile} onChange={handleChange} required />
+        <MuiFileInput value={newFile} onChange={handleFileChange} required />
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>

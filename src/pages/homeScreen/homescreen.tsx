@@ -26,7 +26,7 @@ export default function HomeScreen() {
     setIsFormVisible(false);
   }
 
-  function handlePosts(currentPosts: CardProps[]) {
+  function handleDisplayPosts(currentPosts: CardProps[]) {
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
     });
@@ -80,7 +80,7 @@ export default function HomeScreen() {
           imageUrl: currentEntry.cardImage,
           postKey: postKeys[index],
         }));
-        handlePosts(cardDataArray);
+        handleDisplayPosts(cardDataArray);
         handlePostKeys(postKeys);
       }
       // ...
@@ -108,7 +108,7 @@ export default function HomeScreen() {
         <CardForm
           visibility={isFormVisible}
           onClose={closeForm}
-          addPost={handlePosts}
+          addPost={handleDisplayPosts}
           user={currentUser}
         />
       )}
