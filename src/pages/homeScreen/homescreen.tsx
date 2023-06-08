@@ -88,7 +88,7 @@ export default function HomeScreen() {
 
   return (
     <div className="container-xxl" id="homeScreen">
-      <ResponsiveAppBar />
+      <ResponsiveAppBar user={currentUser} />
       <div className="CardContainer">
         {/* //fix the key */}
         {allPosts.map((currentPost, index) => (

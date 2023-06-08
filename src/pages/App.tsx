@@ -11,7 +11,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/homeScreen" element={<HomeScreen />} />
         <Route path="/cardScreen/:cardID" element={<CardScreen />} />
-        <Route path="/cardScreen/:userID" element={<UserScreen />} />
+        <Route path="/UserScreen/:userID" element={<UserScreen />} />
       </Routes>
     </BrowserRouter>
   );

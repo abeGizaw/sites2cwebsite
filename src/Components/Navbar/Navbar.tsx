@@ -8,19 +8,24 @@ import { createSvgIcon } from "@mui/material/utils";
 import { userSignout } from "../../utilities/utilities";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./navbar.css";
+import { User } from "firebase/auth";
 
 const pages = ["All Posts", "My Posts"];
 const HomeIcon = createSvgIcon(
   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
   "Home"
 );
-
-function ResponsiveAppBar() {
+export interface NavBarProps {
+  user?: User | null;
+}
+function ResponsiveAppBar({ user }: NavBarProps) {
   const navigate = useNavigate();
 
   function handleLogout() {
     userSignout(navigate);
   }
+
+  console.log(user);
 
   const location = useLocation();
 
@@ -62,7 +67,7 @@ function ResponsiveAppBar() {
             </Button>
 
             <Button
-              href="/userScreen/:userID"
+              href={user ? `/UserScreen/${user!.uid}` : ""}
               key={pages[1]}
               sx={{
                 my: 2,

@@ -23,8 +23,12 @@ export default function writePost(
         cardDescription: description,
         cardImage: url,
       });
+      update(ref(database, `users/${currentUser.uid}/posts/${postKey}/`), {
+        cardTitle: title,
+        cardDescription: description,
+        cardImage: url,
+      });
     });
   });
-  push(ref(database, `users/${currentUser.uid}/posts/`), postKey);
   return postKey;
 }
