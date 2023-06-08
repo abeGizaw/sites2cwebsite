@@ -4,7 +4,7 @@ import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
 import CardComponent from "../../Components/Cards/Card";
 import ResponsiveAppBar from "../../Components/Navbar/Navbar";
-import { DataSnapshot, update } from "firebase/database";
+import { DataSnapshot } from "firebase/database";
 import getCurrentCard from "./cardScreenUtils";
 import EditCardForm from "../../Components/editCardForm/editCard";
 import { removeCurrentCard } from "./cardScreenUtils";

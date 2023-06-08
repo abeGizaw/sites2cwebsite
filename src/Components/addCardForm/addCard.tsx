@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
-import { useForkRef } from "@mui/material";
 import { User } from "firebase/auth";
 
 interface CardFormProps {
@@ -62,30 +61,48 @@ export default function CardForm({
     handleChange(null);
   }
 
-  function validateForm() {
+  function validateForm(fileInput: File | null) {
     if (
       currentTitle.length === 0 ||
       currentDesc.length === 0 ||
       imageSubmitted == null ||
-      imageSubmitted!.length === 0
+      imageSubmitted!.length === 0 ||
+      !fileInput
     ) {
       return true;
     } else {
+      const fileExtension = fileInput.name.split(".").pop()?.toLowerCase();
+      if (
+        fileExtension !== "png" &&
+        fileExtension !== "jpg" &&
+        fileExtension !== "jpeg"
+      ) {
+        return true;
+      }
       return false;
     }
   }
 
   function handleChange(newValue: File | null) {
-    setValue(newValue);
     if (newValue) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataURL = reader.result as string;
-        setImage(dataURL);
-      };
-      reader.readAsDataURL(newValue!);
+      const fileExtension = newValue.name.split(".").pop()?.toLowerCase();
+      if (
+        fileExtension === "png" ||
+        fileExtension === "jpg" ||
+        fileExtension === "jpeg"
+      ) {
+        console.log("valid");
+        setValue(newValue);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataURL = reader.result as string;
+          setImage(dataURL);
+        };
+        reader.readAsDataURL(newValue!);
+      }
     } else {
-      setImage(null);
+      setImage(null); //why are we doing this
     }
   }
 
@@ -94,7 +111,8 @@ export default function CardForm({
       <DialogTitle>Add Post</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To add a post, please give it a title, description, and an image
+          To add a post, please give it a title, description, and an image(png,
+          jpg, jpeg)
         </DialogContentText>
         <TextField
           required
@@ -124,7 +142,10 @@ export default function CardForm({
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)} disabled={validateForm()}>
+        <Button
+          onClick={() => handleClose(true)}
+          disabled={validateForm(newFile)}
+        >
           Add Post
         </Button>
         <Button onClick={() => handleClose(false)}>Cancel</Button>

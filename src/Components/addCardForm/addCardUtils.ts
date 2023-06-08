@@ -1,5 +1,5 @@
-import { ref, get, update, child, push } from "firebase/database";
-import { database, auth } from "../../firebase-config";
+import { ref, update, push } from "firebase/database";
+import { database } from "../../firebase-config";
 import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 

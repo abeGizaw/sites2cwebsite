@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
-import { update } from "firebase/database";
 
 export interface editCardProps {
   visibility: boolean;
@@ -58,12 +57,6 @@ export default function EditCardForm({
   }
 
   function validateForm(): boolean | undefined {
-    // console.log(initialData?.title);
-    // console.log(initialData?.description);
-    // console.log("");
-    // console.log(currentTitle);
-    // console.log(currentDesc);
-
     if (
       currentTitle.length === 0 ||
       currentDesc.length === 0 ||
@@ -78,7 +71,6 @@ export default function EditCardForm({
     ) {
       return true;
     }
-    console.log("saw diff");
     return false;
   }
 
