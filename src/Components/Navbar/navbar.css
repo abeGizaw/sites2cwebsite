@@ -8,10 +8,10 @@
     padding-left: 10;
 }
 
-#titleText:hover {
+/* #titleText:hover {
     color: lightblue;
     text-decoration: underline;
-}
+} */
 
 #logoutButton {
     color: white;

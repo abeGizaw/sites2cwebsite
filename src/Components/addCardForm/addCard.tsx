@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
-import { useForkRef } from "@mui/material";
 import { User } from "firebase/auth";
 
 interface CardFormProps {
@@ -27,13 +26,13 @@ export default function CardForm({
   addPost,
   user,
 }: CardFormProps) {
-  const [newFile, setValue] = useState<File | null>(null);
+  const [newFile, setFile] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
   function handleClose(addedData: boolean) {
     if (addedData) {
-      writePost(
+      const newPostKey = writePost(
         {
           title: currentTitle,
           description: currentDesc,
@@ -41,29 +40,68 @@ export default function CardForm({
         },
         user!
       );
+
       addPost([
         {
           title: currentTitle,
           description: currentDesc,
           imageUrl: imageSubmitted!,
+          postKey: newPostKey!,
         },
       ]);
+      clearForm();
     }
-    setTitle("");
-    setDesc("");
-    handleChange(null);
     onClose();
   }
 
-  function handleChange(newValue: File | null) {
-    setValue(newValue);
-    if (newValue) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const dataURL = reader.result as string;
-        setImage(dataURL);
-      };
-      reader.readAsDataURL(newValue!);
+  function clearForm() {
+    setTitle("");
+    setDesc("");
+    setFile(null);
+    handleFileChange(null);
+  }
+
+  function validateFile(fileToValidate: File) {
+    const fileExtension = fileToValidate.name.split(".").pop()?.toLowerCase();
+    if (
+      fileExtension === "png" ||
+      fileExtension === "jpg" ||
+      fileExtension === "jpeg" ||
+      fileExtension === "webp"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function validateForm(fileInput: File | null) {
+    if (
+      currentTitle.length === 0 ||
+      currentDesc.length === 0 ||
+      imageSubmitted == null ||
+      imageSubmitted!.length === 0 ||
+      !fileInput
+    ) {
+      return false;
+    } else if (!validateFile(fileInput)) {
+      return false;
+    }
+    return true;
+  }
+
+  function handleFileChange(newFile: File | null) {
+    if (newFile) {
+      if (validateFile(newFile)) {
+        setFile(newFile);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataURL = reader.result as string;
+          setImage(dataURL);
+        };
+        reader.readAsDataURL(newFile!);
+      }
     } else {
       setImage(null);
     }
@@ -74,7 +112,8 @@ export default function CardForm({
       <DialogTitle>Add Post</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To add a post, please give it a title, description, and an image
+          To add a post, please give it a title, description, and an image(png,
+          jpg, jpeg)
         </DialogContentText>
         <TextField
           required
@@ -100,18 +139,13 @@ export default function CardForm({
           value={currentDesc}
           onChange={(e) => setDesc(e.target.value)}
         />
-        <MuiFileInput value={newFile} onChange={handleChange} required />
+        <MuiFileInput value={newFile} onChange={handleFileChange} required />
         {imageSubmitted && <Image src={imageSubmitted!} />}
       </DialogContent>
       <DialogActions>
         <Button
           onClick={() => handleClose(true)}
-          disabled={
-            currentTitle.length === 0 ||
-            currentDesc.length === 0 ||
-            imageSubmitted == null ||
-            imageSubmitted!.length === 0
-          }
+          disabled={!validateForm(newFile)}
         >
           Add Post
         </Button>

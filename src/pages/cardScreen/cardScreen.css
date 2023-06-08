@@ -1,0 +1,14 @@
+.currentCardOnScreen{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   flex-direction: column;
+
+}
+
+.buttonContainer{
+    margin-top: 20px;
+    display: flex;
+    gap: 10vh;
+}
