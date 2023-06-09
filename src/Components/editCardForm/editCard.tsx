@@ -11,6 +11,7 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
+import { FirebaseError } from "firebase/app";
 import { User } from "firebase/auth";
 import { auth } from "../../firebase-config";
 
@@ -44,7 +45,7 @@ export default function EditCardForm({
    *
    * @param {boolean} editedData
    */
-  function handleClose(editedData: boolean) {
+  async function handleClose(editedData: boolean) {
     onClose();
     iconDisplay(true);
     if (editedData) {
@@ -61,11 +62,13 @@ export default function EditCardForm({
         description: currentDesc,
         imageUrl: imageSubmitted,
         postKey: postKey,
+        authorUID: currentCardOnScreen?.authorUID,
       };
-      editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
-
-      if (currentCardOnScreen!.authorUID === currentUser!.uid) {
-        updateCardOnScreen(newCardInfo);
+      try {
+        await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
+        await updateCardOnScreen(newCardInfo);
+      } catch (error) {
+        alert("You do not have permissions to change this post");
       }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);

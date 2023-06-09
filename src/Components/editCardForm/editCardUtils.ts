@@ -7,6 +7,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { CardProps } from "../Cards/Card";
+import { FirebaseError } from "firebase/app";
+import { Alert } from "@mui/material";
 
 /**
  * When a post gets edited, change it in all appropriate places in the database
@@ -24,11 +26,9 @@ export default async function editPost(
   newFile: File,
   authorUID: string | undefined
 ) {
-  // wrap below in try-catch
   if (newFile) {
     const postRef = storageRef(storage, `users/${authorUID}/${postKey}`);
-    deleteObject(postRef);
-    // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
+    await deleteObject(postRef);
     await uploadBytes(postRef, newFile);
     const url = await getDownloadURL(postRef);
     await update(ref(database, "posts/" + postKey), {

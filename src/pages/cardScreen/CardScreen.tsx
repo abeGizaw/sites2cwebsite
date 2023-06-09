@@ -55,13 +55,18 @@ export default function CardScreen() {
    * Delete the card selected and return to the home screen
    * @date 6/8/2023 - 10:25:00 PM
    */
-  function deleteEntry() {
-    // TODO 1: add conditional logic to delete button to
-    // show popup, disallowing user to call removeCurrentCard if not the author
-    // (choosing to show UI and stop user instead of letting Error get thrown) (High Priority)
-    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {
-      navigate("/homeScreen");
-    });
+  async function deleteEntry() {
+    // TODO: add loading
+    try {
+      await removeCurrentCard(postKey, currentCard?.authorUID).then(
+        (snapshot: void) => {
+          navigate("/homeScreen");
+        }
+      );
+    } catch (error) {
+      alert(error);
+      //TODO ^ replace ugly 'error' since not debugging anymore, manually give message
+    }
   }
 
   /**
