@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { connectDatabaseEmulator, getDatabase } from "firebase/database";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
@@ -17,15 +17,15 @@ const firebaseConfig = {
   appId: "1:582052325575:web:f6d0c4dfc6b89eddd9f6e2",
   measurementId: "G-NMLNLGV14B",
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 // Initialize Realtime Database and get a reference to the service
 export const database = getDatabase(app);
 export const storage = getStorage(app);
 export const auth = getAuth(app);
-
-// Initialize Google Auth
 export const provider = new GoogleAuthProvider();
+
+connectDatabaseEmulator(database, "localhost", 9000);
+connectAuthEmulator(auth, "http://127.0.0.1:9099");
+connectStorageEmulator(storage, "localhost", 9199); // Initialize Google Auth
