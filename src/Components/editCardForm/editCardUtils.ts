@@ -29,5 +29,4 @@ export default async function editPost(
     cardDescription: description,
     cardImage: url,
   });
- 
 }
