@@ -21,22 +21,24 @@ export default function UserScreen() {
     getMyPostKeys(userId).then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
-      let postKeys: string[] = Object.keys(data) as string[];
+      // TODO 3: Add simple text for "You have no posts"
+      if (data) {
+        let postKeys: string[] = Object.keys(data) as string[];
+        setCurrentUserPostkeys(postKeys);
 
-      setCurrentUserPostkeys(postKeys);
-
-      const cardDataArray: CardProps[] = (
-        Object.values(data) as Array<{
-          cardTitle: string;
-          cardDescription: string;
-          cardImage: string;
-        }>
-      ).map((currentEntry, index) => ({
-        title: currentEntry.cardTitle,
-        description: currentEntry.cardDescription,
-        imageUrl: currentEntry.cardImage,
-      }));
-      setCurrentUserCards(cardDataArray);
+        const cardDataArray: CardProps[] = (
+          Object.values(data) as Array<{
+            cardTitle: string;
+            cardDescription: string;
+            cardImage: string;
+          }>
+        ).map((currentEntry, index) => ({
+          title: currentEntry.cardTitle,
+          description: currentEntry.cardDescription,
+          imageUrl: currentEntry.cardImage,
+        }));
+        setCurrentUserCards(cardDataArray);
+      }
     });
   }, []);
 

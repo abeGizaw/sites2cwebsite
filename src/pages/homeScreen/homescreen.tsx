@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { database, storage, auth } from "../../firebase-config";
+import { auth } from "../../firebase-config";
 import CardComponent from "../../Components/Cards/Card";
 import CardForm from "../../Components/addCardForm/addCard";
 import "../../styles/homeScreen.css";
