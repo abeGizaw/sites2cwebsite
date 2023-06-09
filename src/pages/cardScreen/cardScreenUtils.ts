@@ -22,7 +22,6 @@ export async function removeCurrentCard(
 ) {
   console.log(authorUID);
   const postRef = storageRef(storage, `users/${authorUID}/${currentPostKey}`);
-  // TODO wrap below in try-catch
   await deleteObject(postRef);
   await remove(ref(database, `users/${authorUID}/posts/${currentPostKey}`));
   await remove(ref(database, `posts/${currentPostKey}`));

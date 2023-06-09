@@ -42,7 +42,7 @@ export default function EditCardForm({
    *
    * @param {boolean} editedData
    */
-  function handleClose(editedData: boolean) {
+  async function handleClose(editedData: boolean) {
     onClose();
     iconDisplay(true);
     if (editedData) {
@@ -62,11 +62,11 @@ export default function EditCardForm({
         authorUID: currentCardOnScreen?.authorUID,
       };
       try {
-        editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
-        updateCardOnScreen(newCardInfo);
+        await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
+        await updateCardOnScreen(newCardInfo);
       } catch (error) {
-        console.log("Cannot edit another user's post");
-        // TODO: pop up or front end message
+        alert(error);
+        //TODO ^ replace ugly 'error' since not debugging anymore, manually give message
       }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);

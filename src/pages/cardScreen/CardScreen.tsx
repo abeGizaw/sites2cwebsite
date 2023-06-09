@@ -55,17 +55,17 @@ export default function CardScreen() {
    * Delete the card selected and return to the home screen
    * @date 6/8/2023 - 10:25:00 PM
    */
-  function deleteEntry() {
-    // TODO add loading
+  async function deleteEntry() {
+    // TODO: add loading
     try {
-      removeCurrentCard(postKey, currentCard?.authorUID).then(
-        (snapshot: void) => {}
+      await removeCurrentCard(postKey, currentCard?.authorUID).then(
+        (snapshot: void) => {
+          navigate("/homeScreen");
+        }
       );
-      navigate("/homeScreen");
-      // TODO: updateCardOnScreen so user doesnt have to refresh to see updated UI
     } catch (error) {
-      console.log("Cannot delete another user's post");
-      // TODO: popup
+      alert(error);
+      //TODO ^ replace ugly 'error' since not debugging anymore, manually give message
     }
   }
 
