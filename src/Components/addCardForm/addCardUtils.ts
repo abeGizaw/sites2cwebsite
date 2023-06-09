@@ -26,7 +26,6 @@ export default async function writePost(
 ) {
   const postKey = push(ref(database, "posts/")).key;
   const postRef = storageRef(storage, `users/${currentUser.uid!}/${postKey}`);
-
   await uploadBytes(postRef, file);
   const url = await getDownloadURL(postRef);
   await update(ref(database, "posts/" + postKey), {
