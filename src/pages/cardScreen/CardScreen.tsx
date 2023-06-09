@@ -11,11 +11,13 @@ import { removeCurrentCard } from "./cardScreenUtils";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { User } from "firebase/auth";
+import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
 
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [currentUser, setUser] = useState<User | null>(auth.currentUser);
+  const [loadingIconVisible, setLoadingIconVisible] = useState<boolean>(false);
 
   const location = useLocation();
   const currentUrl = location.pathname;
@@ -24,6 +26,7 @@ export default function CardScreen() {
 
   function updateCurrentCard(cardTpUpdate: CardProps) {
     setCurrentCard(() => cardTpUpdate);
+    setLoadingIconVisible(false);
   }
 
   function editEntry() {
@@ -32,6 +35,7 @@ export default function CardScreen() {
 
   function closeForm() {
     setIsFormVisible(false);
+    setLoadingIconVisible(true);
   }
 
   function deleteEntry() {
@@ -77,6 +81,8 @@ export default function CardScreen() {
               updateCard={updateCurrentCard}
               authorUID={currentUser!.uid}
             />
+
+            <LoadingIcon visible={loadingIconVisible} />
 
             <div className="buttonContainer">
               <button

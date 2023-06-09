@@ -36,7 +36,16 @@ export default function EditCardForm({
   const [currentTitle, setTitle] = useState<string>(cardOnDisplay.title);
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
   function handleClose(editedData: boolean) {
+    onClose();
     if (editedData) {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        event.preventDefault();
+        event.returnValue =
+          "Leaving now won't save the post you just made. Are you sure you want to leave?";
+
+        return "Leaving now won't save the post you just made. Are you sure you want to leave?";
+      };
+
       const newCardInfo: CardProps = {
         title: currentTitle,
         description: currentDesc,
@@ -45,8 +54,9 @@ export default function EditCardForm({
       };
       editPost(newCardInfo, authorUID, newFile!);
       updateCardOnScreen(newCardInfo);
+
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     }
-    onClose();
   }
 
   function updateCardOnScreen(newCardOnScreen: CardProps) {
