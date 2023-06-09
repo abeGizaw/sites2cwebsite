@@ -33,7 +33,12 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-  async function handleClose(addedData: boolean) {
+
+  /**
+   * Handles what happens when a form is closed. Will also display a loading screen while everything gets added to database.
+   * @param {booolean} addedData boolean signifying if data got added
+   */
+  async function handleCloseForm(addedData: boolean) {
     onClose();
     loadingScreen(true);
 
@@ -47,6 +52,7 @@ export default function CardForm({
       };
 
       window.addEventListener("beforeunload", handleBeforeUnload);
+
       const newPostKey = await writePost(
         {
           title: currentTitle,
@@ -56,8 +62,6 @@ export default function CardForm({
         user!,
         newFile!
       );
-
-      console.log(newPostKey);
 
       addPost([
         {
@@ -127,7 +131,7 @@ export default function CardForm({
   }
 
   return (
-    <Dialog open={visibility} onClose={() => handleClose(false)}>
+    <Dialog open={visibility} onClose={() => handleCloseForm(false)}>
       <DialogTitle>Add Post</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -163,12 +167,12 @@ export default function CardForm({
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={() => handleClose(true)}
+          onClick={() => handleCloseForm(true)}
           disabled={!validateForm(newFile)}
         >
           Add Post
         </Button>
-        <Button onClick={() => handleClose(false)}>Cancel</Button>
+        <Button onClick={() => handleCloseForm(false)}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
