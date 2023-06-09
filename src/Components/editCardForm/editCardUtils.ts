@@ -26,8 +26,7 @@ export default async function editPost(
 ) {
   const postRef = storageRef(storage, `users/${authorUID!}/${postKey}`);
   deleteObject(postRef);
-  // TODO 2: refactor *below* to async/await structure and consider pulling out into function
-  // since this is nearly identical to Storage Upload logic in writePost()
+  // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
   await uploadBytes(postRef, newFile);
   const url = await getDownloadURL(postRef);
   await update(ref(database, "posts/" + postKey), {
