@@ -8,7 +8,6 @@ import { createSvgIcon } from "@mui/material/utils";
 import { userSignout } from "../../utilities/utilities";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./navbar.css";
-import { User } from "firebase/auth";
 
 const pages = ["All Posts", "My Posts"];
 const HomeIcon = createSvgIcon(
@@ -18,14 +17,19 @@ const HomeIcon = createSvgIcon(
 export interface NavBarProps {
   userId?: string | null;
 }
+/**
+ * The Main Navbar. Deals with all reRouting from MyPosts and AllPosts.
+ * @date 6/8/2023 - 10:38:24 PM
+ *
+ * @param {NavBarProps} { userId }
+ * @returns {*}
+ */
 function ResponsiveAppBar({ userId }: NavBarProps) {
   const navigate = useNavigate();
 
   function handleLogout() {
     userSignout(navigate);
   }
-
-  console.log(userId);
 
   const location = useLocation();
 

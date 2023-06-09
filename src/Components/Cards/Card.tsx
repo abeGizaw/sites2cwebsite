@@ -23,6 +23,10 @@ export default function CardComponent({
 }: CardProps) {
   const navigate = useNavigate();
 
+  /**
+   * When Card gets clicked on, navigate to the card's unqiue screen
+   * @date 6/8/2023 - 10:13:22 PM
+   */
   function redirectPage() {
     navigate(`/cardScreen/${postKey}`);
   }

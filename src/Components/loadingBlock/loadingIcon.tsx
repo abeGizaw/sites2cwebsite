@@ -1,12 +1,5 @@
 import ReactLoading from "react-loading";
-import { useNavigate, useLocation } from "react-router-dom";
-import { User } from "firebase/auth";
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog, DialogContentText, DialogTitle } from "@mui/material";
 
 export interface LoadingIconProps {
   visible: boolean;

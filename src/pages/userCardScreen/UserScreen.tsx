@@ -17,11 +17,18 @@ export default function UserScreen() {
   const userId = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
   console.log(userId);
 
+  /**
+   * Gets all of the current user's post from the database and sets them locally to display
+   * @date 6/8/2023 - 10:22:47 PM
+   *
+   * @export
+   * @returns {*}
+   */
   useEffect(() => {
     getMyPostKeys(userId).then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here
       const data = snapshot.val();
-      // TODO 3: Add simple text for "You have no posts"
+      // TODO 3: Add simple text for "You have no posts" (LOW PRIORITY)
       if (data) {
         let postKeys: string[] = Object.keys(data) as string[];
         setCurrentUserPostkeys(postKeys);

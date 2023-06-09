@@ -28,6 +28,12 @@ export default function HomeScreen() {
     setIsFormVisible(false);
   }
 
+  /**
+   * Displays the posts on the Screen. Closes the loading Icon once everything has been displayed
+   * @date 6/8/2023 - 10:18:33 PM
+   *
+   * @param {CardProps[]} currentPosts
+   */
   function handleDisplayPosts(currentPosts: CardProps[]) {
     setPosts((currentAllPosts) => {
       return [...currentAllPosts, ...currentPosts];
@@ -39,12 +45,24 @@ export default function HomeScreen() {
     setLoadingIconVisible(false);
   }
 
-  function handlePostKeys(currentKeys: string[]) {
+  /**
+   * Sets all the Postkeys
+   * @date 6/8/2023 - 10:19:32 PM
+   *
+   * @param {string[]} newKeys
+   */
+  function handlePostKeys(newKeys: string[]) {
     setPostKeys((currentAllKeys) => {
-      return [...currentAllKeys, ...currentKeys];
+      return [...currentAllKeys, ...newKeys];
     });
   }
 
+  /**
+   * Authenticate the user when they get to this screen and log them in the database
+   * @date 6/8/2023 - 10:20:08 PM
+   *
+   * @returns {*}
+   */
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -62,6 +80,12 @@ export default function HomeScreen() {
     };
   }, [navigate]);
 
+  /**
+   * Get all the posts from the database. Sets all the inital postKeys on cards On the screen.
+   * @date 6/8/2023 - 10:20:08 PM
+   *
+   * @returns {*}
+   */
   useEffect(() => {
     getAllPosts().then((snapshot: DataSnapshot) => {
       // Handle the snapshot data here

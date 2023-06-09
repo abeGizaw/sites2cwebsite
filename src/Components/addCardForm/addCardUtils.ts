@@ -8,6 +8,17 @@ import { database, storage } from "../../firebase-config";
 import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 
+/**
+ * writes posts to the database. uplaods the image from storage, then writes the post to the posts path and appropriate user path
+ * @date 6/8/2023 - 10:11:36 PM
+ *
+ * @export
+ * @async
+ * @param {CardProps} { title, description }
+ * @param {User} currentUser
+ * @param {File} file
+ * @returns {string} new postKey to be added
+ */
 export default async function writePost(
   { title, description }: CardProps,
   currentUser: User,
