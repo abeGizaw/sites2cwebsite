@@ -33,6 +33,7 @@ export default function CardScreen() {
   function updateCurrentCard(cardToUpdate: CardProps) {
     setCurrentCard(() => cardToUpdate);
   }
+
   /**
    * Displays the editPost form
    * @date 6/8/2023 - 10:46:43 PM
@@ -58,8 +59,9 @@ export default function CardScreen() {
     // TODO 1: add conditional logic to delete button to
     // show popup, disallowing user to call removeCurrentCard if not the author
     // (choosing to show UI and stop user instead of letting Error get thrown) (High Priority)
-    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {});
-    navigate("/homeScreen");
+    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {
+      navigate("/homeScreen");
+    });
   }
 
   /**
