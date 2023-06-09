@@ -11,6 +11,8 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
+import { User } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 export interface editCardProps {
   visibility: boolean;
@@ -34,6 +36,7 @@ export default function EditCardForm({
   const [imageSubmitted, setImage] = useState<string>(cardOnDisplay.imageUrl);
   const [currentTitle, setTitle] = useState<string>(cardOnDisplay.title);
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
+  const [currentUser] = useState<User | null>(auth.currentUser);
 
   /**
    * handles what happens when you close the edit form post. talks to the database and the screen to edit the post. Also Deals with the loading screen
@@ -60,7 +63,10 @@ export default function EditCardForm({
         postKey: postKey,
       };
       editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
-      updateCardOnScreen(newCardInfo);
+
+      if (currentCardOnScreen!.authorUID === currentUser!.uid) {
+        updateCardOnScreen(newCardInfo);
+      }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);
     }
