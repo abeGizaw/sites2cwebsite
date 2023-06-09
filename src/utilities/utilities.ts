@@ -1,16 +1,17 @@
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { provider } from "../firebase-config";
 import { NavigateFunction } from "react-router-dom";
 import { auth } from "../firebase-config";
 
+/**
+ * Attempts to log the user in. On Sucess it sends the user to the home Screen.
+ * @date 6/8/2023 - 10:42:38 PM
+ *
+ * @export
+ * @param {NavigateFunction} navigate
+ */
 export default function userLogin(navigate: NavigateFunction) {
-  // const auth = getAuth();
-
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
@@ -38,8 +39,14 @@ export default function userLogin(navigate: NavigateFunction) {
     });
 }
 
+/**
+ * Signs the user out and sends them back to the login screen
+ * @date 6/8/2023 - 10:43:33 PM
+ *
+ * @export
+ * @param {NavigateFunction} navigate
+ */
 export function userSignout(navigate: NavigateFunction) {
-  // const auth = getAuth();
   signOut(auth)
     .then(() => {
       navigate("/");

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
@@ -16,7 +16,7 @@ import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [currentUser, setUser] = useState<User | null>(auth.currentUser);
+  const [currentUser] = useState<User | null>(auth.currentUser);
   const [loadingIconVisible, setLoadingIconVisible] = useState<boolean>(false);
 
   const location = useLocation();
@@ -35,12 +35,16 @@ export default function CardScreen() {
     setLoadingIconVisible(false);
   }
 
+  /**
+   * Displays the editPost form
+   * @date 6/8/2023 - 10:46:43 PM
+   */
   function editEntry() {
     setIsFormVisible(true);
   }
 
   /**
-   * Clsoes form and opens loading icon until change is finished
+   * Clsoes the editPost form and opens loading icon until change is finished
    * @date 6/8/2023 - 10:34:11 PM
    */
   function closeForm() {

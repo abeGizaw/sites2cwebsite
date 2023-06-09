@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import getMyPostKeys from "./userScreenUtils";
 import { DataSnapshot } from "firebase/database";
@@ -10,12 +10,16 @@ import { User } from "firebase/auth";
 export default function UserScreen() {
   const [currentUserCards, setCurrentUserCards] = useState<CardProps[]>([]);
   const [currentUserPostkeys, setCurrentUserPostkeys] = useState<string[]>([]);
-  const [currentUser, setUser] = useState<User | null>(auth.currentUser);
 
+  /**
+   * Get the url and find the userID from that URL
+   * @date 6/8/2023 - 10:44:57 PM
+   *
+   * @type {*}
+   */
   const location = useLocation();
   const currentUrl = location.pathname;
   const userId = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
-  console.log(userId);
 
   /**
    * Gets all of the current user's post from the database and sets them locally to display

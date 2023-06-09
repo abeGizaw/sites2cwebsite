@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,7 +12,6 @@ import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
 import { User } from "firebase/auth";
-import ReactLoading from "react-loading";
 
 interface CardFormProps {
   visibility: boolean;
@@ -49,9 +48,7 @@ export default function CardForm({
     if (addedData) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
-        event.returnValue =
-          "Leaving now won't save the post you just made. Are you sure you want to leave?";
-
+        event.returnValue = "";
         return "Leaving now won't save the post you just made. Are you sure you want to leave?";
       };
 
@@ -81,6 +78,10 @@ export default function CardForm({
     loadingScreen(false);
   }
 
+  /**
+   * Clears the form when you enter new data
+   * @date 6/8/2023 - 10:40:13 PM
+   */
   function clearForm() {
     setTitle("");
     setDesc("");

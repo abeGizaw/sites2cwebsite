@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -19,7 +18,6 @@ export default function CardComponent({
   description,
   imageUrl,
   postKey,
-  user,
 }: CardProps) {
   const navigate = useNavigate();
 

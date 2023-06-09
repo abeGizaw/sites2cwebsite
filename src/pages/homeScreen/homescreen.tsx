@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import CardComponent from "../../Components/Cards/Card";
 import CardForm from "../../Components/addCardForm/addCard";
@@ -20,10 +20,18 @@ export default function HomeScreen() {
   const [postKeys, setPostKeys] = useState<string[]>([]);
   const navigate = useNavigate();
 
+  /**
+   * Adds the addForm form
+   * @date 6/8/2023 - 10:45:48 PM
+   */
   function handleFormVisibility() {
     setIsFormVisible(true);
   }
 
+  /**
+   * Removes the addForm form
+   * @date 6/8/2023 - 10:46:03 PM
+   */
   function closeForm() {
     setIsFormVisible(false);
   }
@@ -81,7 +89,7 @@ export default function HomeScreen() {
   }, [navigate]);
 
   /**
-   * Get all the posts from the database. Sets all the inital postKeys on cards On the screen.
+   * Get all the posts from the database. Sets all the inital postKeys of cards On the screen.
    * @date 6/8/2023 - 10:20:08 PM
    *
    * @returns {*}

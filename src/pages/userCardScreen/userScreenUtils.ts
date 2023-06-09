@@ -1,6 +1,5 @@
-import { ref, get, update } from "firebase/database";
+import { ref, get } from "firebase/database";
 import { database } from "../../firebase-config";
-import { User } from "firebase/auth";
 
 /**
  * Gets all of the users post's postKeys

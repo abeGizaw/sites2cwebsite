@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
-import User from "firebase/auth";
 
 export interface editCardProps {
   visibility: boolean;
