@@ -100,8 +100,6 @@ export default function HomeScreen() {
       const data = snapshot.val();
       if (data) {
         let postKeys: string[] = Object.keys(data) as string[];
-        console.log(postKeys);
-
         const cardDataArray: CardProps[] = (
           Object.values(data) as Array<{
             cardTitle: string;
