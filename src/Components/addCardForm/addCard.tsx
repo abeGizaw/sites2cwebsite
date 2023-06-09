@@ -17,7 +17,7 @@ interface CardFormProps {
   visibility: boolean;
   onClose: () => void;
   addPost: (newPost: CardProps[]) => void;
-  user?: User | null;
+  user: User;
   loadingScreen: (displayLoad: boolean) => void;
 }
 

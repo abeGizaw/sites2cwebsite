@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";

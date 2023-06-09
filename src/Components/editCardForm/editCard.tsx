@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -160,7 +160,7 @@ export default function EditCardForm({
    * Initialize the data of the card on the screen. This is for later compariosn to make sure you are making chnages on the post
    * @date 6/8/2023 - 10:37:03 PM
    */
-  function initializeCardOnScreen() {
+  const initializeCardOnScreen = useCallback(() => {
     const currentCardInfo: CardProps = {
       title: cardOnDisplay.title,
       description: cardOnDisplay.description,
@@ -171,11 +171,17 @@ export default function EditCardForm({
     setCurrentCardOnScreen(() => {
       return currentCardInfo;
     });
-  }
+  }, [
+    cardOnDisplay.authorUID,
+    cardOnDisplay.description,
+    cardOnDisplay.imageUrl,
+    cardOnDisplay.postKey,
+    cardOnDisplay.title,
+  ]);
 
   useEffect(() => {
     initializeCardOnScreen();
-  }, []);
+  }, [initializeCardOnScreen]);
 
   return (
     <Dialog open={visibility} onClose={() => handleClose(false)}>

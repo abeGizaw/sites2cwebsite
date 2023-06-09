@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.10.5",
     "eslint-plugin-css-modules": "^2.11.0",
+    "eslint-plugin-react-hooks": "^5.0.0-canary-21a161fa3-20230609",
     "firebase": "^9.22.1",
     "firebaseui": "^6.0.2",
     "mui-file-input": "^2.0.0",

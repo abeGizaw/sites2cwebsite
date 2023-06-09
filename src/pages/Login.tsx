@@ -14,20 +14,18 @@ export default function Login() {
     userLogin(navigate);
   }
   return (
-    <>
-      <div className="Login">
-        <div className="h-flex">
-          <img src={g_logo} className="Logo" alt="logo" />
-          <div className="v-flex">
-            <div className="Title">Sites2C</div>
-            <hr className="Break" />
-            <div className="SubTitle">Googler Trip Recommendations</div>
-          </div>
+    <div className="Login">
+      <div className="h-flex">
+        <img src={g_logo} className="Logo" alt="logo" />
+        <div className="v-flex">
+          <div className="Title">Sites2C</div>
+          <hr className="Break" />
+          <div className="SubTitle">Googler Trip Recommendations</div>
         </div>
-        <button className="signInButton" onClick={handleLogin}>
-          Sign-in with Google
-        </button>
       </div>
-    </>
+      <button className="signInButton" onClick={handleLogin}>
+        Sign-in with Google
+      </button>
+    </div>
   );
 }
