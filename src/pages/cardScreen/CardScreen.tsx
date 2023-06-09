@@ -35,7 +35,10 @@ export default function CardScreen() {
   }
 
   function deleteEntry() {
-    removeCurrentCard(postKey).then((snapshot: void) => {});
+    // TODO 1: add conditional logic to delete button to
+    // show popup, disallowing user to call removeCurrentCard if not the author
+    // (choosing to show UI and stop user instead of letting Error get thrown)
+    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {});
     navigate("/homeScreen");
   }
 
@@ -72,6 +75,7 @@ export default function CardScreen() {
               cardOnDisplay={currentCard}
               postKey={postKey}
               updateCard={updateCurrentCard}
+              authorUID={currentUser!.uid}
             />
 
             <div className="buttonContainer">

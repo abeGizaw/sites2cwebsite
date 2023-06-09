@@ -1,17 +1,34 @@
 import { ref, update } from "firebase/database";
-import { database } from "../../firebase-config";
-import { User } from "firebase/auth";
+import { database, storage } from "../../firebase-config";
+import {
+  deleteObject,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import { CardProps } from "../Cards/Card";
 
-export default function editPost({
-  title,
-  description,
-  imageUrl,
-  postKey,
-}: CardProps) {
-  update(ref(database, "posts/" + postKey), {
-    cardTitle: title,
-    cardDescription: description,
-    cardImage: imageUrl,
+export default function editPost(
+  { title, description, postKey }: CardProps,
+  authorUID: string,
+  newFile: File
+) {
+  const postRef = storageRef(storage, `users/${authorUID!}/${postKey}`);
+  deleteObject(postRef);
+  // TODO 2: refactor *below* to async/await structure and consider pulling out into function
+  // since this is nearly identical to Storage Upload logic in writePost()
+  uploadBytes(postRef, newFile).then(() => {
+    getDownloadURL(postRef).then((url) => {
+      update(ref(database, "posts/" + postKey), {
+        cardTitle: title,
+        cardDescription: description,
+        cardImage: url,
+      });
+      update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
+        cardTitle: title,
+        cardDescription: description,
+        cardImage: url,
+      });
+    });
   });
 }

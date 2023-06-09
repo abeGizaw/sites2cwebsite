@@ -11,6 +11,7 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
+import User from "firebase/auth";
 
 export interface editCardProps {
   visibility: boolean;
@@ -18,6 +19,7 @@ export interface editCardProps {
   cardOnDisplay: CardProps;
   postKey: string;
   updateCard: (newCardInfo: CardProps) => void;
+  authorUID: string;
 }
 
 export default function EditCardForm({
@@ -26,6 +28,7 @@ export default function EditCardForm({
   cardOnDisplay,
   postKey,
   updateCard,
+  authorUID,
 }: editCardProps) {
   const [currentCardOnScreen, setCurrentCardOnScreen] = useState<CardProps>();
   const [newFile, setFile] = useState<File | null>(null);
@@ -40,7 +43,7 @@ export default function EditCardForm({
         imageUrl: imageSubmitted,
         postKey: postKey,
       };
-      editPost(newCardInfo);
+      editPost(newCardInfo, authorUID, newFile!);
       updateCardOnScreen(newCardInfo);
     }
     onClose();
