@@ -110,22 +110,24 @@ export default function CardScreen() {
 
             <LoadingIcon visible={loadingIconVisible} />
 
-            <div className="buttonContainer">
-              <button
-                type="button"
-                className="btn btn-lg btn-primary"
-                onClick={editEntry}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn btn-lg btn-danger"
-                onClick={deleteEntry}
-              >
-                Delete
-              </button>
-            </div>
+            {currentUser && currentUser.uid === currentCard.authorUID && (
+              <div className="buttonContainer">
+                <button
+                  type="button"
+                  className="btn btn-lg btn-primary"
+                  onClick={editEntry}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-lg btn-danger"
+                  onClick={deleteEntry}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
