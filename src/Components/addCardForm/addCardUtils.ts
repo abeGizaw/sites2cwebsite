@@ -30,6 +30,7 @@ export default async function writePost(
   await uploadBytes(postRef, file);
   const url = await getDownloadURL(postRef);
   await update(ref(database, "posts/" + postKey), {
+    cardAuthor: currentUser.uid,
     cardTitle: title,
     cardDescription: description,
     cardImage: url,
