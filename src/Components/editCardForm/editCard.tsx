@@ -12,6 +12,8 @@ import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
 import { FirebaseError } from "firebase/app";
+import { User } from "firebase/auth";
+import { auth } from "../../firebase-config";
 
 export interface editCardProps {
   visibility: boolean;
@@ -35,6 +37,7 @@ export default function EditCardForm({
   const [imageSubmitted, setImage] = useState<string>(cardOnDisplay.imageUrl);
   const [currentTitle, setTitle] = useState<string>(cardOnDisplay.title);
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
+  const [currentUser] = useState<User | null>(auth.currentUser);
 
   /**
    * handles what happens when you close the edit form post. talks to the database and the screen to edit the post. Also Deals with the loading screen
@@ -65,8 +68,7 @@ export default function EditCardForm({
         await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
         await updateCardOnScreen(newCardInfo);
       } catch (error) {
-        alert(error);
-        //TODO ^ replace ugly 'error' since not debugging anymore, manually give message
+        alert("You do not have permissions to change this post");
       }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);
