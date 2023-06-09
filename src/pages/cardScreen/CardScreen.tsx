@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
@@ -16,7 +16,7 @@ import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [currentUser, setUser] = useState<User | null>(auth.currentUser);
+  const [currentUser] = useState<User | null>(auth.currentUser);
   const [loadingIconVisible, setLoadingIconVisible] = useState<boolean>(false);
 
   const location = useLocation();
@@ -24,28 +24,53 @@ export default function CardScreen() {
   const postKey = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
   const navigate = useNavigate();
 
+  /**
+   * update the Card on Screen then remvoe the loading screen Icon from the screen
+   * @date 6/8/2023 - 10:24:26 PM
+   *
+   * @param {CardProps} cardTpUpdate
+   */
   function updateCurrentCard(cardTpUpdate: CardProps) {
     setCurrentCard(() => cardTpUpdate);
     setLoadingIconVisible(false);
   }
 
+  /**
+   * Displays the editPost form
+   * @date 6/8/2023 - 10:46:43 PM
+   */
   function editEntry() {
     setIsFormVisible(true);
   }
 
+  /**
+   * Clsoes the editPost form and opens loading icon until change is finished
+   * @date 6/8/2023 - 10:34:11 PM
+   */
   function closeForm() {
     setIsFormVisible(false);
     setLoadingIconVisible(true);
   }
 
+  /**
+   * Delete the card selected and return to the home screen
+   * @date 6/8/2023 - 10:25:00 PM
+   */
   function deleteEntry() {
     // TODO 1: add conditional logic to delete button to
     // show popup, disallowing user to call removeCurrentCard if not the author
-    // (choosing to show UI and stop user instead of letting Error get thrown)
+    // (choosing to show UI and stop user instead of letting Error get thrown) (High Priority)
     removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {});
     navigate("/homeScreen");
   }
 
+  /**
+   * get the data of the current card from the postKey and set all needed initial data
+   * @date 6/8/2023 - 10:25:25 PM
+   *
+   * @export
+   * @returns {*}
+   */
   useEffect(() => {
     getCurrentCard(postKey).then((snapshot: DataSnapshot) => {
       const data = snapshot.val();

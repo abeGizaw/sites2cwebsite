@@ -8,6 +8,17 @@ import {
 } from "firebase/storage";
 import { CardProps } from "../Cards/Card";
 
+/**
+ * When a post gets edited, change it in all appropriate places in the database
+ * @date 6/8/2023 - 10:28:12 PM
+ *
+ * @export
+ * @async
+ * @param {CardProps} { title, description, postKey }
+ * @param {string} authorUID
+ * @param {File} newFile
+ * @returns {*}
+ */
 export default async function editPost(
   { title, description, postKey }: CardProps,
   authorUID: string,

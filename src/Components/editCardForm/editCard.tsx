@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
-import User from "firebase/auth";
 
 export interface editCardProps {
   visibility: boolean;
@@ -35,6 +34,13 @@ export default function EditCardForm({
   const [imageSubmitted, setImage] = useState<string>(cardOnDisplay.imageUrl);
   const [currentTitle, setTitle] = useState<string>(cardOnDisplay.title);
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
+
+  /**
+   * handles what happens when you close the edit form post. talks to the database and the screen to edit the post
+   * @date 6/8/2023 - 10:33:00 PM
+   *
+   * @param {boolean} editedData
+   */
   function handleClose(editedData: boolean) {
     onClose();
     if (editedData) {
@@ -59,11 +65,24 @@ export default function EditCardForm({
     }
   }
 
+  /**
+   * Update the data of the card on the screen and tells the CardScreen page about the change
+   * @date 6/8/2023 - 10:35:23 PM
+   *
+   * @param {CardProps} newCardOnScreen
+   */
   function updateCardOnScreen(newCardOnScreen: CardProps) {
     setCurrentCardOnScreen(newCardOnScreen);
     updateCard(newCardOnScreen);
   }
 
+  /**
+   * Validates the file is a valid file type
+   * @date 6/8/2023 - 10:36:01 PM
+   *
+   * @param {(File | null)} fileToValidate
+   * @returns {boolean}
+   */
   function validateFile(fileToValidate: File | null) {
     if (fileToValidate) {
       const fileExtension = fileToValidate.name.split(".").pop()?.toLowerCase();
@@ -81,6 +100,13 @@ export default function EditCardForm({
     return false;
   }
 
+  /**
+   * Validates that you have proper inputs. Nothing can be empty and there must be a present change
+   * @date 6/8/2023 - 10:36:13 PM
+   *
+   * @param {(File | null)} fileToValidate
+   * @returns {boolean}
+   */
   function validateForm(fileToValidate: File | null) {
     if (
       currentTitle.length === 0 ||
@@ -107,6 +133,12 @@ export default function EditCardForm({
     return true;
   }
 
+  /**
+   * When a file is changed, set the file and convert it to a url to have reference too
+   * @date 6/8/2023 - 10:36:39 PM
+   *
+   * @param {(File | null)} newValue
+   */
   function handleFileChange(newValue: File | null) {
     if (newValue) {
       setFile(newValue);
@@ -122,6 +154,10 @@ export default function EditCardForm({
     }
   }
 
+  /**
+   * Initialize the data of the card on the screen. This is for later compariosn to make sure you are making chnages on the post
+   * @date 6/8/2023 - 10:37:03 PM
+   */
   function initializeCardOnScreen() {
     const currentCardInfo: CardProps = {
       title: cardOnDisplay.title,
@@ -139,7 +175,7 @@ export default function EditCardForm({
   }, []);
 
   return (
-    <Dialog open={visibility} onClose={handleClose}>
+    <Dialog open={visibility} onClose={() => handleClose(false)}>
       <DialogTitle>Edit Post</DialogTitle>
       <DialogContent>
         <DialogContentText>Edit Your Post</DialogContentText>

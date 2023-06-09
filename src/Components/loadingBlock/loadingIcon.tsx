@@ -1,16 +1,17 @@
 import ReactLoading from "react-loading";
-import { useNavigate, useLocation } from "react-router-dom";
-import { User } from "firebase/auth";
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog, DialogContentText, DialogTitle } from "@mui/material";
 
 export interface LoadingIconProps {
   visible: boolean;
 }
+/**
+ * Displays a container with a loading icon. Used whenever a fetch to the database is called, and the system needs to wait for the action to be finished
+ * @date 6/8/2023 - 10:47:42 PM
+ *
+ * @export
+ * @param {LoadingIconProps} { visible }
+ * @returns {*}
+ */
 export default function LoadingIcon({ visible }: LoadingIconProps) {
   return (
     <Dialog open={visible}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,7 +12,6 @@ import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
 import { User } from "firebase/auth";
-import ReactLoading from "react-loading";
 
 interface CardFormProps {
   visibility: boolean;
@@ -36,7 +35,11 @@ export default function CardForm({
 
   /**
    * Handles what happens when a form is closed. Will also display a loading screen while everything gets added to database.
-   * @param {booolean} addedData boolean signifying if data got added
+   * @date 6/8/2023 - 10:13:53 PM
+   *
+   * @async
+   * @param {boolean} addedData
+   * @returns {*}
    */
   async function handleCloseForm(addedData: boolean) {
     onClose();
@@ -45,9 +48,7 @@ export default function CardForm({
     if (addedData) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
-        event.returnValue =
-          "Leaving now won't save the post you just made. Are you sure you want to leave?";
-
+        event.returnValue = "";
         return "Leaving now won't save the post you just made. Are you sure you want to leave?";
       };
 
@@ -77,6 +78,10 @@ export default function CardForm({
     loadingScreen(false);
   }
 
+  /**
+   * Clears the form when you enter new data
+   * @date 6/8/2023 - 10:40:13 PM
+   */
   function clearForm() {
     setTitle("");
     setDesc("");
@@ -84,6 +89,13 @@ export default function CardForm({
     handleFileChange(null);
   }
 
+  /**
+   * Makes sure user tries to upload a valid file type
+   * @date 6/8/2023 - 10:16:37 PM
+   *
+   * @param {File} fileToValidate
+   * @returns {boolean}
+   */
   function validateFile(fileToValidate: File) {
     const fileExtension = fileToValidate.name.split(".").pop()?.toLowerCase();
     if (
@@ -98,6 +110,13 @@ export default function CardForm({
     }
   }
 
+  /**
+   * validates that the inputs on the form are good to submit. Must have everything filled and a valid File
+   * @date 6/8/2023 - 10:17:52 PM
+   *
+   * @param {(File | null)} fileInput
+   * @returns {boolean}
+   */
   function validateForm(fileInput: File | null) {
     if (
       currentTitle.length === 0 ||
@@ -113,6 +132,12 @@ export default function CardForm({
     return true;
   }
 
+  /**
+   * Handles what happens when a user chooses a file to upload. Converts file to image URL.
+   * @date 6/8/2023 - 10:17:01 PM
+   *
+   * @param {(File | null)} newFile
+   */
   function handleFileChange(newFile: File | null) {
     if (newFile) {
       if (validateFile(newFile)) {

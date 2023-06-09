@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/Login.css";
 import g_logo from "../assets/g_logo.png";
 import userLogin from "../utilities/utilities";
@@ -7,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const navigate = useNavigate();
 
+  /**
+   * Logs the user in through Authentication
+   * @date 6/8/2023 - 10:42:00 PM
+   */
   function handleLogin() {
     userLogin(navigate);
   }
