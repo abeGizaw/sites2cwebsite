@@ -11,6 +11,7 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
+import { FirebaseError } from "firebase/app";
 
 export interface editCardProps {
   visibility: boolean;
@@ -58,9 +59,15 @@ export default function EditCardForm({
         description: currentDesc,
         imageUrl: imageSubmitted,
         postKey: postKey,
+        authorUID: currentCardOnScreen?.authorUID,
       };
-      editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
-      updateCardOnScreen(newCardInfo);
+      try {
+        editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
+        updateCardOnScreen(newCardInfo);
+      } catch (error) {
+        console.log("Cannot edit another user's post");
+        // TODO: pop up or front end message
+      }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);
     }

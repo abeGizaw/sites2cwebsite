@@ -24,7 +24,6 @@ export default async function editPost(
   newFile: File,
   authorUID: string | undefined
 ) {
-  // wrap below in try-catch
   if (newFile) {
     const postRef = storageRef(storage, `users/${authorUID}/${postKey}`);
     deleteObject(postRef);

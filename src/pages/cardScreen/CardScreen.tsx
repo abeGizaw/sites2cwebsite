@@ -56,11 +56,17 @@ export default function CardScreen() {
    * @date 6/8/2023 - 10:25:00 PM
    */
   function deleteEntry() {
-    // TODO 1: add conditional logic to delete button to
-    // show popup, disallowing user to call removeCurrentCard if not the author
-    // (choosing to show UI and stop user instead of letting Error get thrown) (High Priority)
-    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {});
-    navigate("/homeScreen");
+    // TODO add loading
+    try {
+      removeCurrentCard(postKey, currentCard?.authorUID).then(
+        (snapshot: void) => {}
+      );
+      navigate("/homeScreen");
+      // TODO: updateCardOnScreen so user doesnt have to refresh to see updated UI
+    } catch (error) {
+      console.log("Cannot delete another user's post");
+      // TODO: popup
+    }
   }
 
   /**
