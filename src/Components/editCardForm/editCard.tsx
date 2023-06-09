@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -18,7 +18,7 @@ export interface editCardProps {
   cardOnDisplay: CardProps;
   postKey: string;
   updateCard: (newCardInfo: CardProps) => void;
-  authorUID: string;
+  iconDisplay: (toDisplay: boolean) => void;
 }
 
 export default function EditCardForm({
@@ -27,7 +27,7 @@ export default function EditCardForm({
   cardOnDisplay,
   postKey,
   updateCard,
-  authorUID,
+  iconDisplay,
 }: editCardProps) {
   const [currentCardOnScreen, setCurrentCardOnScreen] = useState<CardProps>();
   const [newFile, setFile] = useState<File | null>(null);
@@ -36,13 +36,14 @@ export default function EditCardForm({
   const [currentDesc, setDesc] = useState<string>(cardOnDisplay.description);
 
   /**
-   * handles what happens when you close the edit form post. talks to the database and the screen to edit the post
+   * handles what happens when you close the edit form post. talks to the database and the screen to edit the post. Also Deals with the loading screen
    * @date 6/8/2023 - 10:33:00 PM
    *
    * @param {boolean} editedData
    */
   function handleClose(editedData: boolean) {
     onClose();
+    iconDisplay(true);
     if (editedData) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
@@ -58,11 +59,12 @@ export default function EditCardForm({
         imageUrl: imageSubmitted,
         postKey: postKey,
       };
-      editPost(newCardInfo, authorUID, newFile!);
+      editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
       updateCardOnScreen(newCardInfo);
 
       window.removeEventListener("beforeunload", handleBeforeUnload);
     }
+    iconDisplay(false);
   }
 
   /**
@@ -158,21 +160,28 @@ export default function EditCardForm({
    * Initialize the data of the card on the screen. This is for later compariosn to make sure you are making chnages on the post
    * @date 6/8/2023 - 10:37:03 PM
    */
-  function initializeCardOnScreen() {
+  const initializeCardOnScreen = useCallback(() => {
     const currentCardInfo: CardProps = {
       title: cardOnDisplay.title,
       description: cardOnDisplay.description,
       imageUrl: cardOnDisplay.imageUrl,
       postKey: cardOnDisplay.postKey,
+      authorUID: cardOnDisplay.authorUID,
     };
     setCurrentCardOnScreen(() => {
       return currentCardInfo;
     });
-  }
+  }, [
+    cardOnDisplay.authorUID,
+    cardOnDisplay.description,
+    cardOnDisplay.imageUrl,
+    cardOnDisplay.postKey,
+    cardOnDisplay.title,
+  ]);
 
   useEffect(() => {
     initializeCardOnScreen();
-  }, []);
+  }, [initializeCardOnScreen]);
 
   return (
     <Dialog open={visibility} onClose={() => handleClose(false)}>

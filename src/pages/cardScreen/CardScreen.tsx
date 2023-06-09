@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
@@ -25,14 +25,13 @@ export default function CardScreen() {
   const navigate = useNavigate();
 
   /**
-   * update the Card on Screen then remvoe the loading screen Icon from the screen
+   * update the Card on Screen
    * @date 6/8/2023 - 10:24:26 PM
    *
    * @param {CardProps} cardTpUpdate
    */
-  function updateCurrentCard(cardTpUpdate: CardProps) {
-    setCurrentCard(() => cardTpUpdate);
-    setLoadingIconVisible(false);
+  function updateCurrentCard(cardToUpdate: CardProps) {
+    setCurrentCard(() => cardToUpdate);
   }
 
   /**
@@ -60,8 +59,9 @@ export default function CardScreen() {
     // TODO 1: add conditional logic to delete button to
     // show popup, disallowing user to call removeCurrentCard if not the author
     // (choosing to show UI and stop user instead of letting Error get thrown) (High Priority)
-    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {});
-    navigate("/homeScreen");
+    removeCurrentCard(postKey, currentUser!).then((snapshot: void) => {
+      navigate("/homeScreen");
+    });
   }
 
   /**
@@ -79,6 +79,7 @@ export default function CardScreen() {
         title: data.cardTitle,
         description: data.cardDescription,
         imageUrl: data.cardImage,
+        authorUID: data.cardAuthor,
       };
       updateCurrentCard(currentCardInfo);
     });
@@ -104,7 +105,7 @@ export default function CardScreen() {
               cardOnDisplay={currentCard}
               postKey={postKey}
               updateCard={updateCurrentCard}
-              authorUID={currentUser!.uid}
+              iconDisplay={setLoadingIconVisible}
             />
 
             <LoadingIcon visible={loadingIconVisible} />
