@@ -21,23 +21,29 @@ import { CardProps } from "../Cards/Card";
  */
 export default async function editPost(
   { title, description, postKey }: CardProps,
-  authorUID: string,
-  newFile: File
+  newFile: File,
+  authorUID: string | undefined
 ) {
-  const postRef = storageRef(storage, `users/${authorUID!}/${postKey}`);
   // wrap below in try-catch
-  deleteObject(postRef);
-  // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
-  await uploadBytes(postRef, newFile);
-  const url = await getDownloadURL(postRef);
+  if (newFile) {
+    const postRef = storageRef(storage, `users/${authorUID}/${postKey}`);
+    deleteObject(postRef);
+    // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
+    await uploadBytes(postRef, newFile);
+    const url = await getDownloadURL(postRef);
+    await update(ref(database, "posts/" + postKey), {
+      cardImage: url,
+    });
+    await update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
+      cardImage: url,
+    });
+  }
   await update(ref(database, "posts/" + postKey), {
     cardTitle: title,
     cardDescription: description,
-    cardImage: url,
   });
   await update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
     cardTitle: title,
     cardDescription: description,
-    cardImage: url,
   });
 }
