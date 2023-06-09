@@ -25,6 +25,7 @@ export default async function editPost(
   newFile: File
 ) {
   const postRef = storageRef(storage, `users/${authorUID!}/${postKey}`);
+  // wrap below in try-catch
   deleteObject(postRef);
   // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
   await uploadBytes(postRef, newFile);
