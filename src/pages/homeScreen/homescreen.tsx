@@ -26,7 +26,6 @@ export default function HomeScreen() {
 
   function closeForm() {
     setIsFormVisible(false);
-    setLoadingIconVisible(true);
   }
 
   function handleDisplayPosts(currentPosts: CardProps[]) {
@@ -113,6 +112,7 @@ export default function HomeScreen() {
           onClose={closeForm}
           addPost={handleDisplayPosts}
           user={currentUser}
+          loadingScreen={setLoadingIconVisible}
         />
       )}
 

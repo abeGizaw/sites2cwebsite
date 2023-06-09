@@ -19,6 +19,7 @@ interface CardFormProps {
   onClose: () => void;
   addPost: (newPost: CardProps[]) => void;
   user?: User | null;
+  loadingScreen: (displayLoad: boolean) => void;
 }
 
 export default function CardForm({
@@ -26,6 +27,7 @@ export default function CardForm({
   onClose,
   addPost,
   user,
+  loadingScreen,
 }: CardFormProps) {
   const [newFile, setFile] = useState<File | null>(null);
   const [imageSubmitted, setImage] = useState<string | null>(null);
@@ -33,6 +35,7 @@ export default function CardForm({
   const [currentDesc, setDesc] = useState<string>("");
   async function handleClose(addedData: boolean) {
     onClose();
+    loadingScreen(true);
 
     if (addedData) {
       const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -67,6 +70,7 @@ export default function CardForm({
       clearForm();
       window.removeEventListener("beforeunload", handleBeforeUnload);
     }
+    loadingScreen(false);
   }
 
   function clearForm() {
@@ -123,7 +127,7 @@ export default function CardForm({
   }
 
   return (
-    <Dialog open={visibility} onClose={handleClose}>
+    <Dialog open={visibility} onClose={() => handleClose(false)}>
       <DialogTitle>Add Post</DialogTitle>
       <DialogContent>
         <DialogContentText>
