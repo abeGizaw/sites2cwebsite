@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./cardScreen.css";
 import { CardProps } from "../../Components/Cards/Card";
@@ -56,7 +56,6 @@ export default function CardScreen() {
    * @date 6/8/2023 - 10:25:00 PM
    */
   async function deleteEntry() {
-    // TODO: add loading
     try {
       await removeCurrentCard(postKey, currentCard?.authorUID).then(
         (snapshot: void) => {
@@ -64,8 +63,7 @@ export default function CardScreen() {
         }
       );
     } catch (error) {
-      alert(error);
-      //TODO ^ replace ugly 'error' since not debugging anymore, manually give message
+      alert("You do not have permission to change this post");
     }
   }
 
@@ -98,7 +96,7 @@ export default function CardScreen() {
           <>
             <CardComponent
               postKey={postKey}
-              title={currentCard.title} // Provide appropriate values for title, description, and imageUrl
+              title={currentCard.title}
               description={currentCard.description}
               imageUrl={currentCard.imageUrl}
               key={0}
@@ -115,7 +113,7 @@ export default function CardScreen() {
 
             <LoadingIcon visible={loadingIconVisible} />
 
-            {currentUser && currentUser.uid === currentCard.authorUID && (
+            {/* {currentUser && currentUser.uid === currentCard.authorUID && (
               <div className="buttonContainer">
                 <button
                   type="button"
@@ -132,7 +130,24 @@ export default function CardScreen() {
                   Delete
                 </button>
               </div>
-            )}
+            )} */}
+
+            <div className="buttonContainer">
+              <button
+                type="button"
+                className="btn btn-lg btn-primary"
+                onClick={editEntry}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="btn btn-lg btn-danger"
+                onClick={deleteEntry}
+              >
+                Delete
+              </button>
+            </div>
           </>
         )}
       </div>

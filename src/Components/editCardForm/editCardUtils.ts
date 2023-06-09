@@ -7,8 +7,6 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { CardProps } from "../Cards/Card";
-import { FirebaseError } from "firebase/app";
-import { Alert } from "@mui/material";
 
 /**
  * When a post gets edited, change it in all appropriate places in the database
