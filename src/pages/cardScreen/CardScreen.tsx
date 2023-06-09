@@ -34,7 +34,6 @@ export default function CardScreen() {
     setCurrentCard(() => cardTpUpdate);
     setLoadingIconVisible(false);
   }
-
   /**
    * Displays the editPost form
    * @date 6/8/2023 - 10:46:43 PM
