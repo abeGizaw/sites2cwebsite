@@ -74,8 +74,6 @@ export default function HomeScreen() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
       } else {
@@ -96,7 +94,6 @@ export default function HomeScreen() {
    */
   useEffect(() => {
     getAllPosts().then((snapshot: DataSnapshot) => {
-      // Handle the snapshot data here
       const data = snapshot.val();
       if (data) {
         let postKeys: string[] = Object.keys(data) as string[];
@@ -115,7 +112,6 @@ export default function HomeScreen() {
         handleDisplayPosts(cardDataArray);
         handlePostKeys(postKeys);
       }
-      // ...
     });
   }, [handlePostKeys, handleDisplayPosts]);
 
@@ -123,11 +119,10 @@ export default function HomeScreen() {
     <div className="container-xxl" id="homeScreen">
       <ResponsiveAppBar userId={currentUser ? currentUser.uid : null} />
       <div className="CardContainer">
-        {/* //fix the key */}
         {allPosts.map((currentPost, index) => (
           <CardComponent
             postKey={postKeys[index]}
-            title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
+            title={currentPost.title}
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
             user={currentUser}
