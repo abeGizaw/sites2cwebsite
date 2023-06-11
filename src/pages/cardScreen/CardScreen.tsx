@@ -68,6 +68,16 @@ export default function CardScreen() {
   }
 
   /**
+   * Determins if the user can edit/delete the card on Screen
+   * @date 6/11/2023 - 11:13:54 AM
+   *
+   * @returns {boolean}
+   */
+  function validUser() {
+    return currentUser && currentUser.uid === currentCard!.authorUID;
+  }
+
+  /**
    * get the data of the current card from the postKey and set all needed initial data
    * @date 6/8/2023 - 10:25:25 PM
    *
@@ -113,7 +123,7 @@ export default function CardScreen() {
 
             <LoadingIcon visible={loadingIconVisible} />
 
-            {/* {currentUser && currentUser.uid === currentCard.authorUID && (
+            {validUser() && (
               <div className="buttonContainer">
                 <button
                   type="button"
@@ -130,24 +140,7 @@ export default function CardScreen() {
                   Delete
                 </button>
               </div>
-            )} */}
-
-            <div className="buttonContainer">
-              <button
-                type="button"
-                className="btn btn-lg btn-primary"
-                onClick={editEntry}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn btn-lg btn-danger"
-                onClick={deleteEntry}
-              >
-                Delete
-              </button>
-            </div>
+            )}
           </>
         )}
       </div>

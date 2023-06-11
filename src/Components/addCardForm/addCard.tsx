@@ -74,7 +74,7 @@ export default function CardForm({
         clearForm();
         window.removeEventListener("beforeunload", handleBeforeUnload);
       } catch (error) {
-        alert(error);
+        alert("You are now allowed to change this Post");
       }
     }
     loadingScreen(false);

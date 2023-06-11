@@ -62,7 +62,7 @@ export default function EditCardForm({
       };
       try {
         await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
-        await updateCardOnScreen(newCardInfo);
+        updateCardOnScreen(newCardInfo);
       } catch (error) {
         alert("You do not have permissions to change this post");
       }
