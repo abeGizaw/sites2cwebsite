@@ -1,5 +1,5 @@
 import { ref, get, remove } from "firebase/database";
-import { auth, database, storage } from "../../firebase-config";
+import { database, storage } from "../../firebase-config";
 import { deleteObject, ref as storageRef } from "firebase/storage";
 
 export default async function getCurrentCard(currentPostKey: string) {
@@ -13,17 +13,15 @@ export default async function getCurrentCard(currentPostKey: string) {
  * @export
  * @async
  * @param {string} currentPostKey
- * @param {User} currentUser
+ * @param {User} authorUID
  * @returns {unknown}
  */
 export async function removeCurrentCard(
   currentPostKey: string,
   authorUID: string | undefined
 ) {
-  console.log(authorUID);
-  const postRef = storageRef(storage, `users/${authorUID}/${currentPostKey}`);
-  // TODO wrap below in try-catch
-  await deleteObject(postRef);
   await remove(ref(database, `users/${authorUID}/posts/${currentPostKey}`));
   await remove(ref(database, `posts/${currentPostKey}`));
+  const postRef = storageRef(storage, `users/${authorUID}/${currentPostKey}`);
+  await deleteObject(postRef);
 }

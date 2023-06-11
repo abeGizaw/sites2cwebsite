@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { auth } from "../../firebase-config";
 import CardComponent from "../../Components/Cards/Card";
 import CardForm from "../../Components/addCardForm/addCard";
@@ -37,33 +37,33 @@ export default function HomeScreen() {
   }
 
   /**
-   * Displays the posts on the Screen. Closes the loading Icon once everything has been displayed
-   * @date 6/8/2023 - 10:18:33 PM
-   *
-   * @param {CardProps[]} currentPosts
-   */
-  function handleDisplayPosts(currentPosts: CardProps[]) {
-    setPosts((currentAllPosts) => {
-      return [...currentAllPosts, ...currentPosts];
-    });
-
-    if (currentPosts.length === 1) {
-      handlePostKeys([currentPosts[0].postKey!]);
-    }
-    setLoadingIconVisible(false);
-  }
-
-  /**
    * Sets all the Postkeys
    * @date 6/8/2023 - 10:19:32 PM
    *
    * @param {string[]} newKeys
    */
-  function handlePostKeys(newKeys: string[]) {
-    setPostKeys((currentAllKeys) => {
-      return [...currentAllKeys, ...newKeys];
-    });
-  }
+  const handlePostKeys = useCallback((newKeys: string[]) => {
+    setPostKeys((currentAllKeys) => [...currentAllKeys, ...newKeys]);
+  }, []);
+  /**
+   * Displays the posts on the Screen. Closes the loading Icon once everything has been displayed
+   * @date 6/8/2023 - 10:18:33 PM
+   *
+   * @param {CardProps[]} currentPosts
+   */
+  const handleDisplayPosts = useCallback(
+    (currentPosts: CardProps[]) => {
+      if (currentPosts.length === 1) {
+        handlePostKeys([currentPosts[0].postKey!]);
+      }
+
+      setLoadingIconVisible(false);
+      setPosts((currentAllPosts) => {
+        return [...currentAllPosts, ...currentPosts];
+      });
+    },
+    [handlePostKeys]
+  );
 
   /**
    * Authenticate the user when they get to this screen and log them in the database
@@ -74,8 +74,6 @@ export default function HomeScreen() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
         setUser(user);
         writeUserData(user);
       } else {
@@ -96,7 +94,6 @@ export default function HomeScreen() {
    */
   useEffect(() => {
     getAllPosts().then((snapshot: DataSnapshot) => {
-      // Handle the snapshot data here
       const data = snapshot.val();
       if (data) {
         let postKeys: string[] = Object.keys(data) as string[];
@@ -115,19 +112,17 @@ export default function HomeScreen() {
         handleDisplayPosts(cardDataArray);
         handlePostKeys(postKeys);
       }
-      // ...
     });
-  }, []);
+  }, [handlePostKeys, handleDisplayPosts]);
 
   return (
     <div className="container-xxl" id="homeScreen">
       <ResponsiveAppBar userId={currentUser ? currentUser.uid : null} />
       <div className="CardContainer">
-        {/* //fix the key */}
         {allPosts.map((currentPost, index) => (
           <CardComponent
             postKey={postKeys[index]}
-            title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
+            title={currentPost.title}
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
             user={currentUser}

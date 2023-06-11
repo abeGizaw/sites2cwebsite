@@ -1,6 +1,4 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { connectDatabaseEmulator, getDatabase } from "firebase/database";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
@@ -26,6 +24,6 @@ export const storage = getStorage(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 
-connectDatabaseEmulator(database, "localhost", 9000);
-connectAuthEmulator(auth, "http://127.0.0.1:9099");
-connectStorageEmulator(storage, "localhost", 9199); // Initialize Google Auth
+// connectDatabaseEmulator(database, "localhost", 9000);
+// connectAuthEmulator(auth, "http://127.0.0.1:9099");
+// connectStorageEmulator(storage, "localhost", 9199); // Initialize Google Auth

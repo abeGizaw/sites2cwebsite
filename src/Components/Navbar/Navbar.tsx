@@ -37,19 +37,10 @@ function ResponsiveAppBar({ userId }: NavBarProps) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* //Logo Beside Words */}
           <Box>
             <HomeIcon />
           </Box>
-
-          {/* //Sites2C*/}
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            // href={location.pathname === "/homeScreen" ? "" : "/homeScreen"}
-            id="titleText"
-          >
+          <Typography variant="h6" noWrap component="a" id="titleText">
             Sites2C
           </Typography>
 
@@ -86,8 +77,6 @@ function ResponsiveAppBar({ userId }: NavBarProps) {
               {pages[1]}
             </Button>
           </Box>
-
-          {/* //LOGOUT BUTTON */}
           <button
             id="logoutButton"
             type="button"

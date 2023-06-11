@@ -17,7 +17,7 @@ interface CardFormProps {
   visibility: boolean;
   onClose: () => void;
   addPost: (newPost: CardProps[]) => void;
-  user?: User | null;
+  user: User;
   loadingScreen: (displayLoad: boolean) => void;
 }
 
@@ -53,27 +53,29 @@ export default function CardForm({
       };
 
       window.addEventListener("beforeunload", handleBeforeUnload);
-
-      const newPostKey = await writePost(
-        {
-          title: currentTitle,
-          description: currentDesc,
-          imageUrl: imageSubmitted!,
-        },
-        user!,
-        newFile!
-      );
-
-      addPost([
-        {
-          title: currentTitle,
-          description: currentDesc,
-          imageUrl: imageSubmitted!,
-          postKey: newPostKey!,
-        },
-      ]);
-      clearForm();
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      try {
+        const newPostKey = await writePost(
+          {
+            title: currentTitle,
+            description: currentDesc,
+            imageUrl: imageSubmitted!,
+          },
+          user!,
+          newFile!
+        );
+        addPost([
+          {
+            title: currentTitle,
+            description: currentDesc,
+            imageUrl: imageSubmitted!,
+            postKey: newPostKey!,
+          },
+        ]);
+        clearForm();
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      } catch (error) {
+        alert("You are now allowed to change this Post");
+      }
     }
     loadingScreen(false);
   }

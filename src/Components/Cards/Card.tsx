@@ -43,7 +43,7 @@ export default function CardComponent({
           <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" height="230">
             {description}
           </Typography>
         </CardContent>

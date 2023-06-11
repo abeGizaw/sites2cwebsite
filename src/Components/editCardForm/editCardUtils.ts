@@ -24,25 +24,24 @@ export default async function editPost(
   newFile: File,
   authorUID: string | undefined
 ) {
-  if (newFile) {
-    const postRef = storageRef(storage, `users/${authorUID}/${postKey}`);
-    deleteObject(postRef);
-    // TODO 2: consider pulling out into function since this is nearly identical to Storage Upload logic in writePost() (Low Priority)
-    await uploadBytes(postRef, newFile);
-    const url = await getDownloadURL(postRef);
-    await update(ref(database, "posts/" + postKey), {
-      cardImage: url,
-    });
-    await update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
-      cardImage: url,
-    });
-  }
-  await update(ref(database, "posts/" + postKey), {
-    cardTitle: title,
-    cardDescription: description,
-  });
   await update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
     cardTitle: title,
     cardDescription: description,
   });
+  await update(ref(database, "posts/" + postKey), {
+    cardTitle: title,
+    cardDescription: description,
+  });
+  if (newFile) {
+    const postRef = storageRef(storage, `users/${authorUID}/${postKey}`);
+    await deleteObject(postRef);
+    await uploadBytes(postRef, newFile);
+    const url = await getDownloadURL(postRef);
+    await update(ref(database, `users/${authorUID}/posts/${postKey}/`), {
+      cardImage: url,
+    });
+    await update(ref(database, "posts/" + postKey), {
+      cardImage: url,
+    });
+  }
 }

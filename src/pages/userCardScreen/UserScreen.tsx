@@ -4,8 +4,6 @@ import ResponsiveAppBar from "../../Components/Navbar/Navbar";
 import getMyPostKeys from "./userScreenUtils";
 import { DataSnapshot } from "firebase/database";
 import CardComponent, { CardProps } from "../../Components/Cards/Card";
-import { auth } from "../../firebase-config";
-import { User } from "firebase/auth";
 
 export default function UserScreen() {
   const [currentUserCards, setCurrentUserCards] = useState<CardProps[]>([]);
@@ -30,9 +28,7 @@ export default function UserScreen() {
    */
   useEffect(() => {
     getMyPostKeys(userId).then((snapshot: DataSnapshot) => {
-      // Handle the snapshot data here
       const data = snapshot.val();
-      // TODO 3: Add simple text for "You have no posts" (LOW PRIORITY)
       if (data) {
         let postKeys: string[] = Object.keys(data) as string[];
         setCurrentUserPostkeys(postKeys);
@@ -43,7 +39,7 @@ export default function UserScreen() {
             cardDescription: string;
             cardImage: string;
           }>
-        ).map((currentEntry, index) => ({
+        ).map((currentEntry) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
@@ -51,16 +47,15 @@ export default function UserScreen() {
         setCurrentUserCards(cardDataArray);
       }
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="container-xxl" id="userScreen">
       <ResponsiveAppBar userId={userId} />
       <div className="CardContainer">
-        {/* //fix the key */}
         {currentUserCards.map((currentPost, index) => (
           <CardComponent
-            title={currentPost.title} // Provide appropriate values for title, description, and imageUrl
+            title={currentPost.title}
             description={currentPost.description}
             imageUrl={currentPost.imageUrl}
             postKey={currentUserPostkeys[index]}

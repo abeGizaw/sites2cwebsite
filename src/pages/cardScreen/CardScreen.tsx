@@ -55,18 +55,26 @@ export default function CardScreen() {
    * Delete the card selected and return to the home screen
    * @date 6/8/2023 - 10:25:00 PM
    */
-  function deleteEntry() {
-    // TODO add loading
+  async function deleteEntry() {
     try {
-      removeCurrentCard(postKey, currentCard?.authorUID).then(
-        (snapshot: void) => {}
+      await removeCurrentCard(postKey, currentCard?.authorUID).then(
+        (snapshot: void) => {
+          navigate("/homeScreen");
+        }
       );
-      navigate("/homeScreen");
-      // TODO: updateCardOnScreen so user doesnt have to refresh to see updated UI
     } catch (error) {
-      console.log("Cannot delete another user's post");
-      // TODO: popup
+      alert("You do not have permission to change this post");
     }
+  }
+
+  /**
+   * Determins if the user can edit/delete the card on Screen
+   * @date 6/11/2023 - 11:13:54 AM
+   *
+   * @returns {boolean}
+   */
+  function validUser() {
+    return currentUser && currentUser.uid === currentCard!.authorUID;
   }
 
   /**
@@ -98,7 +106,7 @@ export default function CardScreen() {
           <>
             <CardComponent
               postKey={postKey}
-              title={currentCard.title} // Provide appropriate values for title, description, and imageUrl
+              title={currentCard.title}
               description={currentCard.description}
               imageUrl={currentCard.imageUrl}
               key={0}
@@ -115,22 +123,24 @@ export default function CardScreen() {
 
             <LoadingIcon visible={loadingIconVisible} />
 
-            <div className="buttonContainer">
-              <button
-                type="button"
-                className="btn btn-lg btn-primary"
-                onClick={editEntry}
-              >
-                Edit
-              </button>
-              <button
-                type="button"
-                className="btn btn-lg btn-danger"
-                onClick={deleteEntry}
-              >
-                Delete
-              </button>
-            </div>
+            {validUser() && (
+              <div className="buttonContainer">
+                <button
+                  type="button"
+                  className="btn btn-lg btn-primary"
+                  onClick={editEntry}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-lg btn-danger"
+                  onClick={deleteEntry}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

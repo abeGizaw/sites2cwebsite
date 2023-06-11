@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "../../styles/homeScreen.css";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,7 +11,6 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
-import { FirebaseError } from "firebase/app";
 
 export interface editCardProps {
   visibility: boolean;
@@ -42,7 +41,7 @@ export default function EditCardForm({
    *
    * @param {boolean} editedData
    */
-  function handleClose(editedData: boolean) {
+  async function handleClose(editedData: boolean) {
     onClose();
     iconDisplay(true);
     if (editedData) {
@@ -62,11 +61,10 @@ export default function EditCardForm({
         authorUID: currentCardOnScreen?.authorUID,
       };
       try {
-        editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
+        await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
         updateCardOnScreen(newCardInfo);
       } catch (error) {
-        console.log("Cannot edit another user's post");
-        // TODO: pop up or front end message
+        alert("You do not have permissions to change this post");
       }
 
       window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -167,7 +165,7 @@ export default function EditCardForm({
    * Initialize the data of the card on the screen. This is for later compariosn to make sure you are making chnages on the post
    * @date 6/8/2023 - 10:37:03 PM
    */
-  function initializeCardOnScreen() {
+  const initializeCardOnScreen = useCallback(() => {
     const currentCardInfo: CardProps = {
       title: cardOnDisplay.title,
       description: cardOnDisplay.description,
@@ -178,11 +176,17 @@ export default function EditCardForm({
     setCurrentCardOnScreen(() => {
       return currentCardInfo;
     });
-  }
+  }, [
+    cardOnDisplay.authorUID,
+    cardOnDisplay.description,
+    cardOnDisplay.imageUrl,
+    cardOnDisplay.postKey,
+    cardOnDisplay.title,
+  ]);
 
   useEffect(() => {
     initializeCardOnScreen();
-  }, []);
+  }, [initializeCardOnScreen]);
 
   return (
     <Dialog open={visibility} onClose={() => handleClose(false)}>

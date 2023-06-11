@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 database-debug.log*
 ui-debug.log*
-firebase-debug.log
+firebase-debug.log*
