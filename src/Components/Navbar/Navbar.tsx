@@ -40,7 +40,13 @@ function ResponsiveAppBar({ userId }: NavBarProps) {
           <Box>
             <HomeIcon />
           </Box>
-          <Typography variant="h6" noWrap component="a" id="titleText">
+          <Typography
+            variant="h6"
+            noWrap
+            href="/homeScreen"
+            component="a"
+            id="titleText"
+          >
             Sites2C
           </Typography>
 
