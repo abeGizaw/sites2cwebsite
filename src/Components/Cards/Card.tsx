@@ -37,7 +37,7 @@ export default function CardComponent({
           component="img"
           height="250"
           image={imageUrl}
-          alt={imageUrl}
+          alt="no image"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

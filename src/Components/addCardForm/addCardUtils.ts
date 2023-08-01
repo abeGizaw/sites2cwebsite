@@ -1,6 +1,7 @@
 import { ref, update, push } from "firebase/database";
 import {
   getDownloadURL,
+  generateSignedURL,
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
@@ -27,7 +28,13 @@ export default async function writePost(
   const postKey = push(ref(database, "posts/")).key;
   const postRef = storageRef(storage, `users/${currentUser.uid!}/${postKey}`);
   await uploadBytes(postRef, file);
-  const url = await getDownloadURL(postRef);
+  const url = await generateSignedURL(postRef, { ttlSeconds: 10.5 });
+  // try {
+  //   const testURL = await generateSignedURL(postRef);
+  //   console.log(testURL);
+  // } catch (e) {
+  //   console.log(e);
+  // }
   await update(ref(database, "posts/" + postKey), {
     cardAuthor: currentUser.uid,
     cardTitle: title,
@@ -39,6 +46,5 @@ export default async function writePost(
     cardDescription: description,
     cardImage: url,
   });
-
   return postKey;
 }
