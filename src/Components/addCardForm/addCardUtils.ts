@@ -7,6 +7,7 @@ import {
 import { database, storage } from "../../firebase-config";
 import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
+import { FOREVER_TTL_URL } from "../../constants";
 
 /**
  * writes posts to the database. uplaods the image from storage, then writes the post to the posts path and appropriate user path
@@ -20,14 +21,20 @@ import { CardProps } from "../Cards/Card";
  * @returns {string} new postKey to be added
  */
 export default async function writePost(
-  { title, description }: CardProps,
+  { title, description, temporary }: CardProps,
   currentUser: User,
   file: File
 ) {
+  let url: string;
   const postKey = push(ref(database, "posts/")).key;
   const postRef = storageRef(storage, `users/${currentUser.uid!}/${postKey}`);
   await uploadBytes(postRef, file);
-  const url = await getDownloadURL(postRef);
+  if (temporary === FOREVER_TTL_URL) {
+    url = await getDownloadURL(postRef);
+  } else {
+    //makeSignedUrl
+    url = "";
+  }
   await update(ref(database, "posts/" + postKey), {
     cardAuthor: currentUser.uid,
     cardTitle: title,

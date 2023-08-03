@@ -122,7 +122,6 @@ export default function EditCardForm({
       imageSubmitted!.length === 0 ||
       !File
     ) {
-      console.log("empty");
       return false;
     } else if (
       currentTitle === currentCardOnScreen?.title &&

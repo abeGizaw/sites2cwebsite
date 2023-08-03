@@ -34,7 +34,7 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
-  const [ttl, setTTL] = useState<number>(0);
+  const [ttl, setTTL] = useState<number>(FOREVER_TTL_URL);
 
   /**
    * Handles what happens when a form is closed. Will also display a loading screen while everything gets added to database.
@@ -62,6 +62,7 @@ export default function CardForm({
             title: currentTitle,
             description: currentDesc,
             imageUrl: imageSubmitted!,
+            temporary: ttl,
           },
           user!,
           newFile!
@@ -203,6 +204,7 @@ export default function CardForm({
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Age"
+            value={FOREVER_TTL_URL}
             onChange={(e) => setTTL(e.target.value as number)}
           >
             <MenuItem value={FOREVER_TTL_URL}>forever</MenuItem>
