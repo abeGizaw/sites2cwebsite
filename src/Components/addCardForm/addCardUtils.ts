@@ -9,7 +9,6 @@ import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 import { FOREVER_TTL_URL } from "../../constants";
 import { generateSignedURL } from "firebase/storage";
-
 /**
  * writes posts to the database. uplaods the image from storage, then writes the post to the posts path and appropriate user path
  * @date 6/8/2023 - 10:11:36 PM

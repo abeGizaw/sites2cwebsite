@@ -130,8 +130,7 @@ export default function CardForm({
       currentDesc.length === 0 ||
       imageSubmitted === null ||
       imageSubmitted!.length === 0 ||
-      !fileInput ||
-      ttl === 0
+      !fileInput
     ) {
       return false;
     } else if (!validateFile(fileInput)) {
