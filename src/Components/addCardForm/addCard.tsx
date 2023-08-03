@@ -34,6 +34,7 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
+  const [ttl, setTTL] = useState<number>(0);
 
   /**
    * Handles what happens when a form is closed. Will also display a loading screen while everything gets added to database.
@@ -125,9 +126,10 @@ export default function CardForm({
     if (
       currentTitle.length === 0 ||
       currentDesc.length === 0 ||
-      imageSubmitted == null ||
+      imageSubmitted === null ||
       imageSubmitted!.length === 0 ||
-      !fileInput
+      !fileInput ||
+      ttl === 0
     ) {
       return false;
     } else if (!validateFile(fileInput)) {
@@ -157,10 +159,6 @@ export default function CardForm({
     } else {
       setImage(null);
     }
-  }
-
-  function printSelectVal() {
-    console.log("checked");
   }
 
   return (
@@ -205,7 +203,7 @@ export default function CardForm({
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Age"
-            onChange={() => printSelectVal()}
+            onChange={(e) => setTTL(e.target.value as number)}
           >
             <MenuItem value={FOREVER_TTL_URL}>forever</MenuItem>
             <MenuItem value={10}>10 Seconds</MenuItem>
