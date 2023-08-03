@@ -13,7 +13,7 @@ export interface CardProps {
   postKey?: string;
   user?: User | null;
   authorUID?: string;
-  ttl?: number;
+  ttl: number;
 }
 export default function CardComponent({
   title,

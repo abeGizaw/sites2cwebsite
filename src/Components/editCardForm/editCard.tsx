@@ -11,6 +11,7 @@ import { MuiFileInput } from "mui-file-input";
 import Image from "mui-image";
 import { CardProps } from "../Cards/Card";
 import editPost from "./editCardUtils";
+import { FOREVER_TTL_URL } from "../../constants";
 
 export interface editCardProps {
   visibility: boolean;
@@ -59,6 +60,7 @@ export default function EditCardForm({
         imageUrl: imageSubmitted,
         postKey: postKey,
         authorUID: currentCardOnScreen?.authorUID,
+        ttl: currentCardOnScreen?.ttl ?? FOREVER_TTL_URL,
       };
       try {
         await editPost(newCardInfo, newFile!, currentCardOnScreen!.authorUID);
@@ -171,6 +173,7 @@ export default function EditCardForm({
       imageUrl: cardOnDisplay.imageUrl,
       postKey: cardOnDisplay.postKey,
       authorUID: cardOnDisplay.authorUID,
+      ttl: cardOnDisplay.ttl,
     };
     setCurrentCardOnScreen(() => {
       return currentCardInfo;
@@ -181,6 +184,7 @@ export default function EditCardForm({
     cardOnDisplay.imageUrl,
     cardOnDisplay.postKey,
     cardOnDisplay.title,
+    cardOnDisplay.ttl,
   ]);
 
   useEffect(() => {

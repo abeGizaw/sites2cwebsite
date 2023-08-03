@@ -102,12 +102,14 @@ export default function HomeScreen() {
             cardTitle: string;
             cardDescription: string;
             cardImage: string;
+            ttl: number;
           }>
         ).map((currentEntry, index) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
           postKey: postKeys[index],
+          ttl: currentEntry.ttl,
         }));
         handleDisplayPosts(cardDataArray);
         handlePostKeys(postKeys);
@@ -127,6 +129,7 @@ export default function HomeScreen() {
             imageUrl={currentPost.imageUrl}
             user={currentUser}
             key={index}
+            ttl={currentPost.ttl}
           />
         ))}
       </div>

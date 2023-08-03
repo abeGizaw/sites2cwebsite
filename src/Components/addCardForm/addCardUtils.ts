@@ -8,6 +8,7 @@ import { database, storage } from "../../firebase-config";
 import { User } from "firebase/auth";
 import { CardProps } from "../Cards/Card";
 import { FOREVER_TTL_URL } from "../../constants";
+import { generateSignedURL } from "firebase/storage";
 
 /**
  * writes posts to the database. uplaods the image from storage, then writes the post to the posts path and appropriate user path
@@ -32,19 +33,20 @@ export default async function writePost(
   if (ttl === FOREVER_TTL_URL) {
     url = await getDownloadURL(postRef);
   } else {
-    //makeSignedUrl
-    url = await getDownloadURL(postRef);
+    url = await generateSignedURL(postRef, { ttlSeconds: ttl });
   }
   await update(ref(database, "posts/" + postKey), {
     cardAuthor: currentUser.uid,
     cardTitle: title,
     cardDescription: description,
     cardImage: url,
+    ttl: ttl,
   });
   await update(ref(database, `users/${currentUser.uid}/posts/${postKey}/`), {
     cardTitle: title,
     cardDescription: description,
     cardImage: url,
+    ttl: ttl,
   });
 
   return postKey;

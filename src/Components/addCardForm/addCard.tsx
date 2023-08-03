@@ -73,6 +73,7 @@ export default function CardForm({
             description: currentDesc,
             imageUrl: imageSubmitted!,
             postKey: newPostKey!,
+            ttl: ttl,
           },
         ]);
         clearForm();
