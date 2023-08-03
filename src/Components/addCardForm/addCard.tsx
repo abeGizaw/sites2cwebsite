@@ -62,7 +62,7 @@ export default function CardForm({
             title: currentTitle,
             description: currentDesc,
             imageUrl: imageSubmitted!,
-            temporary: ttl,
+            ttl: ttl,
           },
           user!,
           newFile!
@@ -204,7 +204,7 @@ export default function CardForm({
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Age"
-            value={FOREVER_TTL_URL}
+            value={ttl}
             onChange={(e) => setTTL(e.target.value as number)}
           >
             <MenuItem value={FOREVER_TTL_URL}>forever</MenuItem>

@@ -21,7 +21,7 @@ import { FOREVER_TTL_URL } from "../../constants";
  * @returns {string} new postKey to be added
  */
 export default async function writePost(
-  { title, description, temporary }: CardProps,
+  { title, description, ttl }: CardProps,
   currentUser: User,
   file: File
 ) {
@@ -29,11 +29,11 @@ export default async function writePost(
   const postKey = push(ref(database, "posts/")).key;
   const postRef = storageRef(storage, `users/${currentUser.uid!}/${postKey}`);
   await uploadBytes(postRef, file);
-  if (temporary === FOREVER_TTL_URL) {
+  if (ttl === FOREVER_TTL_URL) {
     url = await getDownloadURL(postRef);
   } else {
     //makeSignedUrl
-    url = "";
+    url = await getDownloadURL(postRef);
   }
   await update(ref(database, "posts/" + postKey), {
     cardAuthor: currentUser.uid,
