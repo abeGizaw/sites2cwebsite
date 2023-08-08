@@ -208,6 +208,7 @@ export default function CardForm({
             onChange={(e) => setTTL(e.target.value as number)}
           >
             <MenuItem value={FOREVER_TTL_URL}>forever</MenuItem>
+            <MenuItem value={5}>5 Seconds</MenuItem>
             <MenuItem value={10}>10 Seconds</MenuItem>
             <MenuItem value={20}>20 Seconds</MenuItem>
             <MenuItem value={30}>30 Seconds</MenuItem>

@@ -93,6 +93,7 @@ export default function CardScreen() {
         description: data.cardDescription,
         imageUrl: data.cardImage,
         authorUID: data.cardAuthor,
+        ttl: data.ttl,
       };
       updateCurrentCard(currentCardInfo);
     });
@@ -110,6 +111,7 @@ export default function CardScreen() {
               description={currentCard.description}
               imageUrl={currentCard.imageUrl}
               key={0}
+              ttl={currentCard.ttl}
             />
 
             <EditCardForm
