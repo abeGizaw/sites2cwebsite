@@ -11,7 +11,6 @@ import { getAllPosts } from "./homeScreenUtils";
 import { CardProps } from "../../Components/Cards/Card";
 import { DataSnapshot } from "firebase/database";
 import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
-import { removeCurrentCard } from "../cardScreen/cardScreenUtils";
 
 export default function HomeScreen() {
   const [allPosts, setPosts] = useState<CardProps[]>([]);
@@ -119,11 +118,10 @@ export default function HomeScreen() {
   }, [handlePostKeys, handleDisplayPosts]);
 
   function PostExists(currentPost: CardProps, postKeyIndex: number) {
-    var http = new XMLHttpRequest();
+    const http = new XMLHttpRequest();
     http.open("HEAD", currentPost.imageUrl, false);
     http.send();
     if (http.status !== 200) {
-      removeCurrentCard(postKeys[postKeyIndex], currentUser?.uid as string);
       return false;
     }
     return true;

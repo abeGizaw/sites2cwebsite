@@ -38,7 +38,7 @@ export default function CardComponent({
           component="img"
           height="250"
           image={imageUrl}
-          alt={imageUrl}
+          alt="This post has expired. Click on the post to repost"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

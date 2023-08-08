@@ -99,6 +99,16 @@ export default function CardScreen() {
     });
   }, [postKey]);
 
+  function PostExists(currentCard: CardProps, postKey: string) {
+    const http = new XMLHttpRequest();
+    http.open("HEAD", currentCard.imageUrl, false);
+    http.send();
+    if (http.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <div className="container-xxl" id="singleCardScreen">
       <ResponsiveAppBar userId={currentUser?.uid ? currentUser.uid : null} />
@@ -141,6 +151,15 @@ export default function CardScreen() {
                 >
                   Delete
                 </button>
+                {!PostExists(currentCard, postKey) && (
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    onClick={editEntry}
+                  >
+                    Repost
+                  </button>
+                )}
               </div>
             )}
           </>
