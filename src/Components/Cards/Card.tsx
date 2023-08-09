@@ -14,6 +14,7 @@ export interface CardProps {
   user?: User | null;
   authorUID?: string;
   ttl: number;
+  file?: File;
 }
 export default function CardComponent({
   title,
@@ -31,13 +32,23 @@ export default function CardComponent({
     navigate(`/cardScreen/${postKey}`);
   }
 
+  function PostExists(url: string) {
+    const http = new XMLHttpRequest();
+    http.open("HEAD", url, false);
+    http.send();
+    if (http.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <Card sx={{ maxWidth: 345 }} key={imageUrl} onClick={redirectPage}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="250"
-          image={imageUrl}
+          image={PostExists(imageUrl) ? imageUrl : ""}
           alt="This post has expired. Click on the post to repost"
         />
         <CardContent>

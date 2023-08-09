@@ -74,6 +74,7 @@ export default function CardForm({
             imageUrl: imageSubmitted!,
             postKey: newPostKey!,
             ttl: ttl,
+            file: newFile!,
           },
         ]);
         clearForm();
