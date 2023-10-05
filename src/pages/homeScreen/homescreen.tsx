@@ -102,12 +102,14 @@ export default function HomeScreen() {
             cardTitle: string;
             cardDescription: string;
             cardImage: string;
+            ttl: number;
           }>
         ).map((currentEntry, index) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
           postKey: postKeys[index],
+          ttl: currentEntry.ttl,
         }));
         handleDisplayPosts(cardDataArray);
         handlePostKeys(postKeys);
@@ -115,20 +117,33 @@ export default function HomeScreen() {
     });
   }, [handlePostKeys, handleDisplayPosts]);
 
+  function PostExists(currentPost: CardProps, postKeyIndex: number) {
+    const http = new XMLHttpRequest();
+    http.open("HEAD", currentPost.imageUrl, false);
+    http.send();
+    if (http.status !== 200) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <div className="container-xxl" id="homeScreen">
       <ResponsiveAppBar userId={currentUser ? currentUser.uid : null} />
       <div className="CardContainer">
-        {allPosts.map((currentPost, index) => (
-          <CardComponent
-            postKey={postKeys[index]}
-            title={currentPost.title}
-            description={currentPost.description}
-            imageUrl={currentPost.imageUrl}
-            user={currentUser}
-            key={index}
-          />
-        ))}
+        {allPosts.map((currentPost, index) =>
+          PostExists(currentPost, index) ? (
+            <CardComponent
+              postKey={postKeys[index]}
+              title={currentPost.title}
+              description={currentPost.description}
+              imageUrl={currentPost.imageUrl}
+              user={currentUser}
+              key={index}
+              ttl={currentPost.ttl}
+            />
+          ) : null
+        )}
       </div>
 
       {currentUser && (

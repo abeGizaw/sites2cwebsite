@@ -38,11 +38,15 @@ export default function UserScreen() {
             cardTitle: string;
             cardDescription: string;
             cardImage: string;
+            ttl: number;
+            file: File;
           }>
         ).map((currentEntry) => ({
           title: currentEntry.cardTitle,
           description: currentEntry.cardDescription,
           imageUrl: currentEntry.cardImage,
+          ttl: currentEntry.ttl,
+          file: currentEntry.file,
         }));
         setCurrentUserCards(cardDataArray);
       }
@@ -60,6 +64,8 @@ export default function UserScreen() {
             imageUrl={currentPost.imageUrl}
             postKey={currentUserPostkeys[index]}
             key={index}
+            ttl={currentPost.ttl}
+            file={currentPost.file}
           />
         ))}
       </div>

@@ -1,8 +1,10 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { signOut } from "firebase/auth";
-import { provider } from "../firebase-config";
+import { database, provider, storage } from "../firebase-config";
 import { NavigateFunction } from "react-router-dom";
 import { auth } from "../firebase-config";
+import { ref, remove } from "firebase/database";
+import { deleteObject, ref as storageRef } from "firebase/storage";
 
 /**
  * Attempts to log the user in. On Sucess it sends the user to the home Screen.
@@ -55,3 +57,11 @@ export function userSignout(navigate: NavigateFunction) {
       // An error happened.
     });
 }
+// export async function removeOldCards(
+//   currentPostKey: string,
+//   authorUID: string | undefined
+// ) {
+//   await remove(ref(database, `posts/${currentPostKey}`));
+//   const postRef = storageRef(storage, `users/${authorUID}/${currentPostKey}`);
+//   await deleteObject(postRef);
+// }

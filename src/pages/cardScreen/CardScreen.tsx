@@ -12,10 +12,13 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { User } from "firebase/auth";
 import LoadingIcon from "../../Components/loadingBlock/loadingIcon";
+import RepostCard from "../../Components/repostCardForm/repostCard";
 
 export default function CardScreen() {
   const [currentCard, setCurrentCard] = useState<CardProps>();
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [isEditFormVisible, setisEditFormVisible] = useState<boolean>(false);
+  const [isRepostFormVisible, setisRepostFormVisible] =
+    useState<boolean>(false);
   const [currentUser] = useState<User | null>(auth.currentUser);
   const [loadingIconVisible, setLoadingIconVisible] = useState<boolean>(false);
 
@@ -39,7 +42,7 @@ export default function CardScreen() {
    * @date 6/8/2023 - 10:46:43 PM
    */
   function editEntry() {
-    setIsFormVisible(true);
+    setisEditFormVisible(true);
   }
 
   /**
@@ -47,10 +50,13 @@ export default function CardScreen() {
    * @date 6/8/2023 - 10:34:11 PM
    */
   function closeForm() {
-    setIsFormVisible(false);
+    setisEditFormVisible(false);
     setLoadingIconVisible(true);
   }
 
+  function repostEntry() {
+    setisRepostFormVisible(true);
+  }
   /**
    * Delete the card selected and return to the home screen
    * @date 6/8/2023 - 10:25:00 PM
@@ -67,6 +73,10 @@ export default function CardScreen() {
     }
   }
 
+  function closeRepostForm() {
+    setisRepostFormVisible(false);
+    navigate(`/userScreen/${currentUser?.uid}`);
+  }
   /**
    * Determins if the user can edit/delete the card on Screen
    * @date 6/11/2023 - 11:13:54 AM
@@ -93,10 +103,22 @@ export default function CardScreen() {
         description: data.cardDescription,
         imageUrl: data.cardImage,
         authorUID: data.cardAuthor,
+        ttl: data.ttl,
+        file: data.file,
       };
       updateCurrentCard(currentCardInfo);
     });
   }, [postKey]);
+
+  function PostExists(currentCard: CardProps) {
+    const http = new XMLHttpRequest();
+    http.open("HEAD", currentCard.imageUrl, false);
+    http.send();
+    if (http.status !== 200) {
+      return false;
+    }
+    return true;
+  }
 
   return (
     <div className="container-xxl" id="singleCardScreen">
@@ -110,19 +132,25 @@ export default function CardScreen() {
               description={currentCard.description}
               imageUrl={currentCard.imageUrl}
               key={0}
+              ttl={currentCard.ttl}
             />
 
             <EditCardForm
-              visibility={isFormVisible}
+              visibility={isEditFormVisible}
               onClose={closeForm}
               cardOnDisplay={currentCard}
               postKey={postKey}
               updateCard={updateCurrentCard}
               iconDisplay={setLoadingIconVisible}
             />
-
+            <RepostCard
+              visibility={isRepostFormVisible}
+              onClose={closeRepostForm}
+              postUser={currentUser!}
+              postFile={currentCard.file!}
+              postKey={postKey}
+            />
             <LoadingIcon visible={loadingIconVisible} />
-
             {validUser() && (
               <div className="buttonContainer">
                 <button
@@ -139,6 +167,15 @@ export default function CardScreen() {
                 >
                   Delete
                 </button>
+                {!PostExists(currentCard) && (
+                  <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    onClick={repostEntry}
+                  >
+                    Repost
+                  </button>
+                )}
               </div>
             )}
           </>

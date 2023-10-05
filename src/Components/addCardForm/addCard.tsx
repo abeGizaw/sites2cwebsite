@@ -12,6 +12,8 @@ import Image from "mui-image";
 import writePost from "./addCardUtils";
 import { CardProps } from "../Cards/Card";
 import { User } from "firebase/auth";
+import { MenuItem, Select } from "@mui/material";
+import { FOREVER_TTL_URL } from "../../constants";
 
 interface CardFormProps {
   visibility: boolean;
@@ -32,6 +34,7 @@ export default function CardForm({
   const [imageSubmitted, setImage] = useState<string | null>(null);
   const [currentTitle, setTitle] = useState<string>("");
   const [currentDesc, setDesc] = useState<string>("");
+  const [ttl, setTTL] = useState<number>(FOREVER_TTL_URL);
 
   /**
    * Handles what happens when a form is closed. Will also display a loading screen while everything gets added to database.
@@ -59,6 +62,7 @@ export default function CardForm({
             title: currentTitle,
             description: currentDesc,
             imageUrl: imageSubmitted!,
+            ttl: ttl,
           },
           user!,
           newFile!
@@ -69,6 +73,8 @@ export default function CardForm({
             description: currentDesc,
             imageUrl: imageSubmitted!,
             postKey: newPostKey!,
+            ttl: ttl,
+            file: newFile!,
           },
         ]);
         clearForm();
@@ -191,6 +197,24 @@ export default function CardForm({
         />
         <MuiFileInput value={newFile} onChange={handleFileChange} required />
         {imageSubmitted && <Image src={imageSubmitted!} />}
+        <div style={{ marginTop: "16px", marginBottom: "16px" }}>
+          <DialogContentText>
+            How long do you want the post to stay up for?
+          </DialogContentText>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            value={ttl}
+            onChange={(e) => setTTL(e.target.value as number)}
+          >
+            <MenuItem value={FOREVER_TTL_URL}>forever</MenuItem>
+            <MenuItem value={5}>5 Seconds</MenuItem>
+            <MenuItem value={10}>10 Seconds</MenuItem>
+            <MenuItem value={20}>20 Seconds</MenuItem>
+            <MenuItem value={30}>30 Seconds</MenuItem>
+          </Select>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button

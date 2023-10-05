@@ -1,13 +1,11 @@
-import { ref, update, push } from "firebase/database";
+import { ref, update } from "firebase/database";
 import {
   getDownloadURL,
   ref as storageRef,
-  uploadBytes,
   generateSignedURL,
 } from "firebase/storage";
 import { database, storage } from "../../firebase-config";
 import { User } from "firebase/auth";
-import { CardProps } from "../Cards/Card";
 import { FOREVER_TTL_URL } from "../../constants";
 /**
  * writes posts to the database. uplaods the image from storage, then writes the post to the posts path and appropriate user path
@@ -20,34 +18,27 @@ import { FOREVER_TTL_URL } from "../../constants";
  * @param {File} file
  * @returns {string} new postKey to be added
  */
-export default async function writePost(
-  { title, description, ttl }: CardProps,
+export default async function reWritePost(
+  ttl: number,
   currentUser: User,
-  file: File
+  file: File,
+  postKey: string | null
 ) {
   let url: string;
-  const postKey = push(ref(database, "posts/")).key;
   const postRef = storageRef(storage, `users/${currentUser.uid!}/${postKey}`);
-  await uploadBytes(postRef, file);
+  // await uploadBytes(postRef, file);
   if (ttl === FOREVER_TTL_URL) {
     url = await getDownloadURL(postRef);
   } else {
     url = await generateSignedURL(postRef, { ttlSeconds: ttl });
   }
   await update(ref(database, "posts/" + postKey), {
-    cardAuthor: currentUser.uid,
-    cardTitle: title,
-    cardDescription: description,
     cardImage: url,
     ttl: ttl,
-    file: file,
   });
   await update(ref(database, `users/${currentUser.uid}/posts/${postKey}/`), {
-    cardTitle: title,
-    cardDescription: description,
     cardImage: url,
     ttl: ttl,
-    file: file,
   });
 
   return postKey;
